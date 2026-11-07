@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="livre.DashboardController"
+      alignment="CENTER"
+      spacing="15">
+
+    <padding>
+        <Insets top="30" right="40" bottom="30" left="40"/>
+    </padding>
+
+    <Label text="GESTION DE BIBLIOTHÈQUE"/>
+
+    <Label fx:id="lblBienvenue"/>
+
+    <Label fx:id="lblRole"/>
+
+    <Button text="📚 Gestion des livres"
+        onAction="#ouvrirLivres"
+        prefWidth="220"/>
+
+    <Button text="👥 Gestion des adhérents"
+        onAction="#ouvrirAdherents"
+        prefWidth="220"/>
+
+    <Button text="📖 Gestion des emprunts"
+        onAction="#ouvrirEmprunts"
+        prefWidth="220"/>
+
+    <Button text="🔄 Gestion des retours"
+            prefWidth="220"/>
+
+    <Button text="📊 Tableau de bord"
+            prefWidth="220"/>
+
+    <Button text="🚪 Déconnexion"
+            onAction="#deconnexion"
+            prefWidth="220"/>
+
+</VBox>

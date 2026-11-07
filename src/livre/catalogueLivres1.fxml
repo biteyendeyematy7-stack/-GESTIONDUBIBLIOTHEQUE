@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import java.net.URL?>
+
+<AnchorPane prefHeight="650.0"
+            prefWidth="1000.0"
+            styleClass="management-root"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="livre.CatalogueLivresController">
+
+    <stylesheets>
+        <URL value="@style.css"/>
+        <URL value="@styleAdherent.css"/>
+    </stylesheets>
+
+    <children>
+
+        <BorderPane AnchorPane.topAnchor="0.0"
+                    AnchorPane.bottomAnchor="0.0"
+                    AnchorPane.leftAnchor="0.0"
+                    AnchorPane.rightAnchor="0.0">
+
+            <!-- EN-TÊTE -->
+            <top>
+
+                <HBox alignment="CENTER_LEFT"
+                      spacing="14"
+                      styleClass="management-header">
+
+                    <Label text="📚"
+                           styleClass="action-icon"/>
+
+                    <VBox spacing="3">
+
+                        <Label text="CATALOGUE DES LIVRES"
+                               styleClass="management-title"/>
+
+                        <Label text="Consultez les livres disponibles dans la bibliothèque."
+                               styleClass="management-subtitle"/>
+
+                    </VBox>
+
+                    <Region HBox.hgrow="ALWAYS"/>
+
+                    <Button text="← Tableau de bord"
+                            onAction="#retourAuTableauDeBord"
+                            styleClass="back-button"/>
+
+                </HBox>
+
+            </top>
+
+            <!-- CONTENU -->
+            <center>
+
+                <VBox spacing="12"
+                      styleClass="management-content">
+
+                    <VBox spacing="5">
+
+                        <Label text="Livres de la bibliothèque"
+                               styleClass="card-title"/>
+
+                        <Label text="Consultez les informations et la disponibilité des livres."
+                               styleClass="card-hint"/>
+
+                    </VBox>
+
+                    <TableView fx:id="tableLivres"
+                               styleClass="library-table"
+                               VBox.vgrow="ALWAYS">
+
+                        <columns>
+
+                            <TableColumn fx:id="colId"
+                                         text="ID"
+                                         prefWidth="70"/>
+
+                            <TableColumn fx:id="colTitre"
+                                         text="Titre"
+                                         prefWidth="250"/>
+
+                            <TableColumn fx:id="colAuteur"
+                                         text="Auteur"
+                                         prefWidth="220"/>
+
+                            <TableColumn fx:id="colCategorie"
+                                         text="Catégorie"
+                                         prefWidth="170"/>
+
+                            <TableColumn fx:id="colExemplaires"
+                                         text="Exemplaires"
+                                         prefWidth="120"/>
+
+                            <TableColumn fx:id="colDisponibles"
+                                         text="Disponibles"
+                                         prefWidth="120"/>
+
+                        </columns>
+
+                    </TableView>
+
+                    <Label fx:id="lblMessage"
+                           styleClass="status-message"/>
+
+                </VBox>
+
+            </center>
+
+        </BorderPane>
+
+    </children>
+
+</AnchorPane>

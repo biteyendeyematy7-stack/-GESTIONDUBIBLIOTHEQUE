@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="760.0" prefWidth="1100.0"
+            styleClass="management-root"
+            xmlns="http://javafx.com/javafx/23"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="livre.AdherentController">
+    <stylesheets>
+        <URL value="@style.css"/>
+        <URL value="@styleGestionAdherents.css"/>
+        <URL value="@styleCartes.css"/>
+    </stylesheets>
+    <children>
+        <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                    AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+            <!-- ================= EN-TÊTE ================= -->
+            <top>
+                <HBox alignment="CENTER_LEFT" spacing="14" styleClass="management-header">
+                    <Label text="👥" styleClass="action-icon"/>
+
+                    <VBox spacing="3">
+                        <Label text="Gestion des adhérents" styleClass="management-title"/>
+                        <Label text="Créez et gérez les profils des lecteurs de la bibliothèque."
+                               styleClass="management-subtitle"/>
+                    </VBox>
+
+                    <Region HBox.hgrow="ALWAYS"/>
+
+                    <Button text="← Retour au tableau de bord"
+                            onAction="#retournerDashboard"
+                            styleClass="dashboard-return-button"/>
+                </HBox>
+            </top>
+
+            <!-- ================= CONTENU ================= -->
+            <center>
+                <HBox spacing="18" styleClass="management-content">
+
+                    <!-- Colonne de la liste -->
+                    <VBox spacing="14" HBox.hgrow="ALWAYS">
+
+                        <HBox alignment="CENTER_LEFT" spacing="10" styleClass="search-card">
+                            <TextField fx:id="txtRecherche"
+                                       maxWidth="Infinity"
+                                       onAction="#rechercherAdherent"
+                                       promptText="Nom, prénom ou téléphone..."
+                                       styleClass="search-field"
+                                       HBox.hgrow="ALWAYS"/>
+                            <Button mnemonicParsing="false" onAction="#rechercherAdherent" styleClass="search-button" text="Rechercher"/>
+                            <Button mnemonicParsing="false" onAction="#afficherTousLesAdherents" styleClass="clear-button" text="Afficher tous"/>
+                        </HBox>
+
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label text="Adhérents" styleClass="card-title"/>
+                            <Label fx:id="lblNombreAdherents" styleClass="count-chip"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label fx:id="lblMessage" styleClass="status-message" wrapText="true"/>
+                        </HBox>
+
+                        <ScrollPane fitToWidth="true"
+                                    hbarPolicy="NEVER"
+                                    styleClass="page-scroll"
+                                    VBox.vgrow="ALWAYS">
+                            <content>
+                                <FlowPane fx:id="grilleAdherents"
+                                          hgap="20"
+                                          vgap="20"
+                                          styleClass="grille-livres"/>
+                            </content>
+                        </ScrollPane>
+                    </VBox>
+
+                    <!-- Formulaire -->
+                    <ScrollPane fitToWidth="true"
+                                hbarPolicy="NEVER"
+                                minWidth="360.0"
+                                prefWidth="360.0"
+                                maxWidth="360.0"
+                                styleClass="page-scroll">
+                        <content>
+                            <VBox spacing="12" styleClass="form-card">
+
+                                <VBox spacing="3">
+                                    <Label text="Profil de l'adhérent" styleClass="card-title"/>
+                                    <Label text="Cliquez sur une carte pour modifier un adhérent, ou remplissez le formulaire pour en créer un."
+                                           styleClass="card-hint" wrapText="true"/>
+                                </VBox>
+
+                                <Button maxWidth="Infinity" mnemonicParsing="false"
+                                        onAction="#nouvelAdherent"
+                                        styleClass="secondary-button"
+                                        text="+ Nouvel adhérent"/>
+
+                                <HBox spacing="10">
+                                    <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                        <Label text="Nom" styleClass="field-label"/>
+                                        <TextField fx:id="txtNom" maxWidth="Infinity" styleClass="form-field"/>
+                                    </VBox>
+                                    <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                        <Label text="Prénom" styleClass="field-label"/>
+                                        <TextField fx:id="txtPrenom" maxWidth="Infinity" styleClass="form-field"/>
+                                    </VBox>
+                                </HBox>
+
+                                <VBox spacing="4">
+                                    <Label text="Adresse" styleClass="field-label"/>
+                                    <TextField fx:id="txtAdresse" maxWidth="Infinity" styleClass="form-field"/>
+                                </VBox>
+
+                                <HBox spacing="10">
+                                    <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                        <Label text="Téléphone" styleClass="field-label"/>
+                                        <TextField fx:id="txtTelephone" maxWidth="Infinity" styleClass="form-field"/>
+                                    </VBox>
+                                    <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                        <Label text="Inscription" styleClass="field-label"/>
+                                        <TextField fx:id="txtDateInscription"
+                                                   maxWidth="Infinity"
+                                                   promptText="AAAA-MM-JJ"
+                                                   styleClass="form-field"/>
+                                    </VBox>
+                                </HBox>
+
+                                <VBox spacing="4">
+                                    <Label text="E-mail" styleClass="field-label"/>
+                                    <TextField fx:id="txtEmail" maxWidth="Infinity" styleClass="form-field"/>
+                                </VBox>
+
+                                <Label text="Accès au compte" styleClass="form-section"/>
+                                <Label text="L'adhérent définira son mot de passe lors de sa première connexion."
+       styleClass="card-hint" wrapText="true"/>
+                                <VBox spacing="4">
+                                    <Label text="Identifiant de connexion" styleClass="field-label"/>
+                                    <TextField fx:id="txtLogin" maxWidth="Infinity" styleClass="form-field"/>
+                                </VBox>
+
+                              
+
+                                <Button fx:id="btnAjouter" maxWidth="Infinity" mnemonicParsing="false"
+                                        onAction="#ajouterAdherent"
+                                        styleClass="primary-button"
+                                        text="Créer l'adhérent"/>
+
+                                <HBox spacing="8">
+                                    <Button fx:id="btnModifier" maxWidth="Infinity" mnemonicParsing="false"
+                                            onAction="#modifierAdherent"
+                                            styleClass="secondary-button"
+                                            text="Modifier"
+                                            HBox.hgrow="ALWAYS"/>
+                                    <Button fx:id="btnSupprimer" maxWidth="Infinity" mnemonicParsing="false"
+                                            onAction="#supprimerAdherent"
+                                            styleClass="danger-button"
+                                            text="Supprimer"
+                                            HBox.hgrow="ALWAYS"/>
+                                </HBox>
+                            </VBox>
+                        </content>
+                    </ScrollPane>
+
+                </HBox>
+            </center>
+        </BorderPane>
+    </children>
+</AnchorPane>

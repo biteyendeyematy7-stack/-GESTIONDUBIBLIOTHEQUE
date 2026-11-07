@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="700.0"
+            prefWidth="1000.0"
+            styleClass="management-root"
+            style="-fx-background-color: #F6ECE6;"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="livre.CatalogueLivresController">
+
+    <stylesheets>
+        <URL value="@style.css"/>
+        <URL value="@styleAdherent.css"/>
+        <URL value="@styleCartes.css"/>
+    </stylesheets>
+
+    <children>
+
+        <BorderPane AnchorPane.topAnchor="0.0"
+                    AnchorPane.bottomAnchor="0.0"
+                    AnchorPane.leftAnchor="0.0"
+                    AnchorPane.rightAnchor="0.0">
+
+            <!-- ================= EN-TÊTE ================= -->
+            <top>
+                <HBox alignment="CENTER_LEFT"
+                      spacing="14"
+                      styleClass="management-header"
+                      style="-fx-background-color: #7B2D3B;">
+
+                    <Label text="📚" styleClass="action-icon"/>
+
+                    <VBox spacing="3">
+                        <Label text="Catalogue des livres"
+                               styleClass="management-title"/>
+                        <Label text="Parcourez les livres de la bibliothèque et leur disponibilité."
+                               styleClass="management-subtitle"/>
+                    </VBox>
+
+                    <Region HBox.hgrow="ALWAYS"/>
+
+                    <Button text="← Tableau de bord"
+                            onAction="#retourAuTableauDeBord"
+                            styleClass="back-button"/>
+                </HBox>
+            </top>
+
+            <!-- ================= CONTENU ================= -->
+            <center>
+                <VBox spacing="14" styleClass="management-content">
+
+                    <HBox alignment="CENTER_LEFT" spacing="12">
+
+                        <Label text="Livres de la bibliothèque"
+                               styleClass="card-title"/>
+
+                        <Label fx:id="lblNombreLivres"
+                               styleClass="count-chip"/>
+
+                        <Region HBox.hgrow="ALWAYS"/>
+
+                        <TextField fx:id="txtRecherche"
+                                   promptText="Rechercher un titre, un auteur..."
+                                   prefWidth="320.0"
+                                   styleClass="search-field"/>
+                    </HBox>
+
+                    <ScrollPane fitToWidth="true"
+                                hbarPolicy="NEVER"
+                                styleClass="page-scroll"
+                                VBox.vgrow="ALWAYS">
+                        <content>
+                            <FlowPane fx:id="grilleLivres"
+                                      hgap="22"
+                                      vgap="26"
+                                      styleClass="grille-livres"/>
+                        </content>
+                    </ScrollPane>
+
+                    <Label fx:id="lblMessage"
+                           styleClass="status-message"/>
+                </VBox>
+            </center>
+
+        </BorderPane>
+
+    </children>
+
+</AnchorPane>

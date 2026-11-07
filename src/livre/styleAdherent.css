@@ -1,0 +1,74 @@
+/* Thème exclusif à dashboardAdherent.fxml : variante bordeaux */
+
+.dashboard-root {
+    -fx-background-color: #F6ECE6;
+}
+
+/* Zone de défilement transparente */
+.page-scroll {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-padding: 0;
+}
+
+.page-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+.app-header {
+    -fx-background-color: #7B2D3B;
+    -fx-border-color: #B7791F;
+    -fx-border-width: 0 0 4 0;
+}
+
+.app-kicker { -fx-text-fill: #F0CFCF; }
+.app-subtitle { -fx-text-fill: #F8E4E1; }
+
+.role-badge {
+    -fx-background-color: rgba(255, 255, 255, 0.16);
+    -fx-border-color: rgba(240, 207, 207, 0.60);
+}
+
+.welcome-card {
+    -fx-background-color: #FFFDF8;
+    -fx-background-radius: 14px;
+    -fx-border-color: #E8D3CE #E8D3CE #E8D3CE #7B2D3B;
+    -fx-border-radius: 14px;
+    -fx-border-width: 1 1 1 5;
+    -fx-effect: dropshadow(gaussian, rgba(123, 45, 59, 0.12), 14, 0.14, 0, 3);
+}
+
+.welcome-caption { -fx-text-fill: #A5676F; }
+.welcome-name, .section-title { -fx-text-fill: #7B2D3B; }
+.section-hint { -fx-text-fill: #6B5748; }
+
+.action-card {
+    -fx-background-color: #FFFDF8;
+    -fx-border-color: #E8D3CE;
+    -fx-text-fill: #7B2D3B;
+}
+
+.action-card:hover {
+    -fx-background-color: #FAECE8;
+    -fx-border-color: #7B2D3B;
+    -fx-effect: dropshadow(gaussian, rgba(123, 45, 59, 0.20), 12, 0.18, 0, 3);
+}
+
+.action-card:pressed { -fx-background-color: #F2DAD4; }
+
+/* Icônes des boutons : laiton */
+.action-card .action-icon {
+    -fx-text-fill: #B7791F;
+    -fx-font-size: 22px;
+}
+
+/* Déconnexion : brun neutre, pour ne pas se confondre avec le bordeaux */
+.logout-button {
+    -fx-border-color: #8C7A68;
+    -fx-text-fill: #6B5748;
+}
+
+.logout-button:hover {
+    -fx-background-color: #F1E4CB;
+    -fx-border-color: #6B5748;
+}

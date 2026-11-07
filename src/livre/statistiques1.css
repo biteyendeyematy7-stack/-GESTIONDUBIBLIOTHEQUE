@@ -1,0 +1,55 @@
+.root {
+    -fx-background-color: #f5f7fa;
+}
+
+/* Titre principal */
+.titre-statistiques {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+/* Conteneur principal des statistiques */
+.stats-box {
+    -fx-background-color: transparent;
+    -fx-padding: 10px;
+}
+
+/* Cartes statistiques */
+.carte-statistique {
+    -fx-background-color: white;
+    -fx-background-radius: 12px;
+    -fx-border-color: #dfe6e9;
+    -fx-border-radius: 12px;
+    -fx-pref-width: 400px;
+    -fx-pref-height: 500px;
+    -fx-padding: 15px;
+}
+/* Icônes */
+.icone-statistique {
+    -fx-font-size: 35px;
+}
+
+/* Texte des statistiques */
+.statistique {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+    -fx-pref-width: 300px;
+}
+/* Bouton Fermer */
+.bouton-fermer {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px 30px;
+    -fx-cursor: hand;
+}
+
+.bouton-fermer:hover {
+    -fx-background-color: #2980b9;
+}

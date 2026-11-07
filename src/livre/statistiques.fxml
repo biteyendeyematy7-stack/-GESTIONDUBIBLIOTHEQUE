@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="livre.StatistiquesController"
+      prefWidth="980.0"
+      prefHeight="560.0"
+      styleClass="stats-root"
+      stylesheets="@statistiques.css">
+
+    <!-- ================= EN-TÊTE ================= -->
+    <HBox alignment="CENTER_LEFT"
+          spacing="14"
+          styleClass="stats-header">
+
+        <Label text="📊" styleClass="header-icon"/>
+
+        <VBox spacing="3">
+            <Label text="Tableau de bord et statistiques"
+                   styleClass="titre-statistiques"/>
+            <Label text="Vue d'ensemble de l'activité de la bibliothèque."
+                   styleClass="sous-titre-statistiques"/>
+        </VBox>
+
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <Button text="Fermer"
+                onAction="#fermer"
+                styleClass="bouton-fermer"/>
+    </HBox>
+
+    <!-- ================= CONTENU ================= -->
+    <HBox spacing="20"
+          styleClass="stats-content"
+          VBox.vgrow="ALWAYS">
+
+        <!-- Cartes d'indicateurs -->
+        <GridPane hgap="16" vgap="16" HBox.hgrow="ALWAYS">
+
+            <columnConstraints>
+                <ColumnConstraints percentWidth="50.0" hgrow="ALWAYS"/>
+                <ColumnConstraints percentWidth="50.0" hgrow="ALWAYS"/>
+            </columnConstraints>
+
+            <!-- Livres -->
+            <HBox alignment="CENTER_LEFT" spacing="14"
+                  styleClass="carte-statistique,carte-livres"
+                  GridPane.rowIndex="0" GridPane.columnIndex="0">
+                <Label text="📚" styleClass="icone-statistique"/>
+                <VBox spacing="2">
+                    <Label fx:id="lblLivres" text="0" styleClass="valeur-statistique"/>
+                    <Label text="Titres au catalogue" styleClass="libelle-statistique"/>
+                </VBox>
+            </HBox>
+
+            <!-- Disponibles -->
+            <HBox alignment="CENTER_LEFT" spacing="14"
+                  styleClass="carte-statistique,carte-disponibles"
+                  GridPane.rowIndex="0" GridPane.columnIndex="1">
+                <Label text="📖" styleClass="icone-statistique"/>
+                <VBox spacing="2">
+                    <Label fx:id="lblDisponibles" text="0" styleClass="valeur-statistique"/>
+                    <Label text="Exemplaires disponibles" styleClass="libelle-statistique"/>
+                </VBox>
+            </HBox>
+
+            <!-- Adhérents -->
+            <HBox alignment="CENTER_LEFT" spacing="14"
+                  styleClass="carte-statistique,carte-adherents"
+                  GridPane.rowIndex="1" GridPane.columnIndex="0">
+                <Label text="👥" styleClass="icone-statistique"/>
+                <VBox spacing="2">
+                    <Label fx:id="lblAdherents" text="0" styleClass="valeur-statistique"/>
+                    <Label text="Adhérents inscrits" styleClass="libelle-statistique"/>
+                </VBox>
+            </HBox>
+
+            <!-- Emprunts en cours -->
+            <HBox alignment="CENTER_LEFT" spacing="14"
+                  styleClass="carte-statistique,carte-emprunts"
+                  GridPane.rowIndex="1" GridPane.columnIndex="1">
+                <Label text="📕" styleClass="icone-statistique"/>
+                <VBox spacing="2">
+                    <Label fx:id="lblEmprunts" text="0" styleClass="valeur-statistique"/>
+                    <Label text="Emprunts en cours" styleClass="libelle-statistique"/>
+                </VBox>
+            </HBox>
+
+            <!-- Retards -->
+            <HBox alignment="CENTER_LEFT" spacing="14"
+                  styleClass="carte-statistique,carte-retards"
+                  GridPane.rowIndex="2" GridPane.columnIndex="0">
+                <Label text="⏰" styleClass="icone-statistique"/>
+                <VBox spacing="2">
+                    <Label fx:id="lblRetards" text="0" styleClass="valeur-statistique"/>
+                    <Label text="Emprunts en retard" styleClass="libelle-statistique"/>
+                </VBox>
+            </HBox>
+
+            <!-- Retours -->
+            <HBox alignment="CENTER_LEFT" spacing="14"
+                  styleClass="carte-statistique,carte-retours"
+                  GridPane.rowIndex="2" GridPane.columnIndex="1">
+                <Label text="✅" styleClass="icone-statistique"/>
+                <VBox spacing="2">
+                    <Label fx:id="lblRetours" text="0" styleClass="valeur-statistique"/>
+                    <Label text="Emprunts retournés" styleClass="libelle-statistique"/>
+                </VBox>
+            </HBox>
+
+        </GridPane>
+
+        <!-- Graphique -->
+        <VBox spacing="6"
+              prefWidth="330.0"
+              minWidth="290.0"
+              styleClass="chart-card">
+
+            <Label text="Répartition des emprunts" styleClass="card-title"/>
+            <Label text="Prêts en cours, en retard et déjà rendus." styleClass="card-hint"/>
+
+            <PieChart fx:id="chartEmprunts"
+                      animated="false"
+                      labelsVisible="false"
+                      legendVisible="true"
+                      legendSide="BOTTOM"
+                      startAngle="90.0"
+                      minHeight="260.0"
+                      VBox.vgrow="ALWAYS"/>
+        </VBox>
+
+    </HBox>
+
+</VBox>

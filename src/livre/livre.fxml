@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1100.0"
+            styleClass="management-root"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="livre.LivreController">
+    <stylesheets>
+        <URL value="@style.css"/>
+        <URL value="@styleLivre.css"/>
+        <URL value="@styleCartes.css"/>
+    </stylesheets>
+    <children>
+        <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                    AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+            <!-- ================= EN-TÊTE ================= -->
+            <top>
+                <HBox alignment="CENTER_LEFT" spacing="14" styleClass="management-header">
+                    <Label text="📚" styleClass="action-icon"/>
+                    <VBox spacing="3">
+                        <Label text="Gestion des livres" styleClass="management-title"/>
+                        <Label text="Parcourez le catalogue, ajoutez et modifiez les ouvrages." styleClass="management-subtitle"/>
+                    </VBox>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button mnemonicParsing="false" onAction="#retourAuTableauDeBord" styleClass="back-button" text="← Tableau de bord"/>
+                </HBox>
+            </top>
+
+            <!-- ================= CONTENU ================= -->
+            <center>
+                <HBox spacing="18" styleClass="management-content">
+
+                    <!-- Colonne du catalogue -->
+                    <VBox spacing="14" HBox.hgrow="ALWAYS">
+
+                        <HBox alignment="CENTER_LEFT" spacing="10" styleClass="search-card">
+                            <TextField fx:id="txtRecherche"
+                                       maxWidth="Infinity"
+                                       onAction="#rechercherLivre"
+                                       promptText="Rechercher par titre, auteur ou catégorie..."
+                                       styleClass="search-field"
+                                       HBox.hgrow="ALWAYS"/>
+                            <Button mnemonicParsing="false" onAction="#rechercherLivre" styleClass="search-button" text="Rechercher"/>
+                            <Button mnemonicParsing="false" onAction="#afficherTousLesLivres" styleClass="clear-button" text="Afficher tous"/>
+                        </HBox>
+
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label text="Catalogue" styleClass="card-title"/>
+                            <Label fx:id="lblNombreLivres" styleClass="count-chip"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label fx:id="lblMessage" styleClass="status-message" wrapText="true"/>
+                        </HBox>
+
+                        <ScrollPane fitToWidth="true"
+                                    hbarPolicy="NEVER"
+                                    styleClass="page-scroll"
+                                    VBox.vgrow="ALWAYS">
+                            <content>
+                                <FlowPane fx:id="grilleLivres"
+                                          hgap="22"
+                                          vgap="26"
+                                          styleClass="grille-livres"/>
+                            </content>
+                        </ScrollPane>
+                    </VBox>
+
+                    <!-- Formulaire (réservé à l'administrateur et au bibliothécaire) -->
+                    <ScrollPane fx:id="panneauFormulaire"
+                                fitToWidth="true"
+                                hbarPolicy="NEVER"
+                                minWidth="340.0"
+                                prefWidth="340.0"
+                                maxWidth="340.0"
+                                styleClass="page-scroll">
+                        <content>
+                            <VBox spacing="12" styleClass="form-card">
+
+                                <VBox spacing="3">
+                                    <Label text="Informations du livre" styleClass="card-title"/>
+                                    <Label text="Cliquez sur un livre pour le modifier, ou remplissez les champs pour en ajouter un."
+                                           styleClass="card-hint" wrapText="true"/>
+                                </VBox>
+
+                                <Button maxWidth="Infinity" mnemonicParsing="false"
+                                        onAction="#nouveauLivre"
+                                        styleClass="secondary-button"
+                                        text="+ Nouveau livre"/>
+
+                                <VBox spacing="4">
+                                    <Label text="Titre" styleClass="field-label"/>
+                                    <TextField fx:id="txtTitre" maxWidth="Infinity" styleClass="form-field"/>
+                                </VBox>
+
+                                <VBox spacing="4">
+                                    <Label text="Auteur" styleClass="field-label"/>
+                                    <TextField fx:id="txtAuteur" maxWidth="Infinity" styleClass="form-field"/>
+                                </VBox>
+
+                                <VBox spacing="4">
+                                    <Label text="Catégorie" styleClass="field-label"/>
+                                    <TextField fx:id="txtCategorie" maxWidth="Infinity" styleClass="form-field"/>
+                                </VBox>
+
+                                <HBox spacing="10">
+                                    <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                        <Label text="ISBN" styleClass="field-label"/>
+                                        <TextField fx:id="txtISBN" maxWidth="Infinity" styleClass="form-field"/>
+                                    </VBox>
+                                    <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                        <Label text="Éditeur" styleClass="field-label"/>
+                                        <TextField fx:id="txtEditeur" maxWidth="Infinity" styleClass="form-field"/>
+                                    </VBox>
+                                </HBox>
+
+                                <HBox spacing="10">
+                                    <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                        <Label text="Publication" styleClass="field-label"/>
+                                        <TextField fx:id="txtDatePublication"
+                                                   maxWidth="Infinity"
+                                                   promptText="AAAA-MM-JJ"
+                                                   styleClass="form-field"/>
+                                    </VBox>
+                                    <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                        <Label text="Exemplaires" styleClass="field-label"/>
+                                        <TextField fx:id="txtNombreExemplaires" maxWidth="Infinity" styleClass="form-field"/>
+                                    </VBox>
+                                </HBox>
+
+                                <Button fx:id="btnAjouter" maxWidth="Infinity" mnemonicParsing="false"
+                                        onAction="#ajouterLivre"
+                                        styleClass="primary-button"
+                                        text="Ajouter le livre"/>
+
+                                <HBox spacing="8">
+                                    <Button fx:id="btnModifier" maxWidth="Infinity" mnemonicParsing="false"
+                                            onAction="#modifierLivre"
+                                            styleClass="secondary-button"
+                                            text="Modifier"
+                                            HBox.hgrow="ALWAYS"/>
+                                    <Button fx:id="btnSupprimer" maxWidth="Infinity" mnemonicParsing="false"
+                                            onAction="#supprimerLivre"
+                                            styleClass="danger-button"
+                                            text="Supprimer"
+                                            HBox.hgrow="ALWAYS"/>
+                                </HBox>
+                            </VBox>
+                        </content>
+                    </ScrollPane>
+
+                </HBox>
+            </center>
+        </BorderPane>
+    </children>
+</AnchorPane>

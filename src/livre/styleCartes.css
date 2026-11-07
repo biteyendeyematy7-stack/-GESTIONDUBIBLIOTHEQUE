@@ -1,0 +1,109 @@
+/* Cartes de livres : couvertures, badges, zone défilante.
+   Palette noyer, parchemin, laiton. À charger après style.css. */
+
+/* ---------- Zone défilante transparente ---------- */
+.page-scroll {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-padding: 0;
+}
+
+.page-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+.grille-livres {
+    -fx-padding: 10 8 24 8;
+}
+
+/* ---------- Carte de livre ---------- */
+.livre-carte {
+    -fx-cursor: hand;
+}
+
+.livre-carte:hover {
+    -fx-translate-y: -5;
+}
+
+.livre-couverture {
+    -fx-background-radius: 3 10 10 3;
+    -fx-border-color: transparent;
+    -fx-border-width: 3;
+    -fx-border-radius: 3 10 10 3;
+    -fx-padding: 16 12 14 26;
+    -fx-effect: dropshadow(gaussian, rgba(58, 34, 22, 0.35), 12, 0.15, 3, 5);
+}
+
+.livre-carte:hover .livre-couverture {
+    -fx-effect: dropshadow(gaussian, rgba(58, 34, 22, 0.45), 18, 0.20, 4, 8);
+}
+
+/* Livre sélectionné (écran de gestion) */
+.livre-carte-selectionnee .livre-couverture {
+    -fx-border-color: #B7791F;
+}
+
+.couv-categorie {
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-text-fill: rgba(251, 245, 233, 0.80);
+}
+
+.couv-titre {
+    -fx-font-family: "Georgia";
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FBF5E9;
+}
+
+.couv-filet {
+    -fx-background-color: rgba(229, 204, 151, 0.85);
+}
+
+.couv-auteur {
+    -fx-font-size: 12px;
+    -fx-font-style: italic;
+    -fx-text-fill: #F1E4CB;
+}
+
+/* ---------- Badges de disponibilité ---------- */
+.badge-livre {
+    -fx-background-radius: 12px;
+    -fx-padding: 4 12 4 12;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.badge-dispo {
+    -fx-background-color: #E4EFE6;
+    -fx-text-fill: #2F5D46;
+}
+
+.badge-indispo {
+    -fx-background-color: #FBEAE6;
+    -fx-text-fill: #9B2C2C;
+}
+
+/* ---------- Compteur et messages ---------- */
+.count-chip {
+    -fx-background-color: #F1E4CB;
+    -fx-background-radius: 12px;
+    -fx-text-fill: #8A5A12;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 3 12 3 12;
+}
+
+.status-message.status-ok {
+    -fx-text-fill: #2F5D46;
+    -fx-font-weight: bold;
+}
+
+.status-message.status-erreur {
+    -fx-text-fill: #9B2C2C;
+    -fx-font-weight: bold;
+}
+
+.status-message.status-info {
+    -fx-text-fill: #6B5748;
+}

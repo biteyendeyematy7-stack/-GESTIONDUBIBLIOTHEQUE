@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="livre.AccueilController"
+      styleClass="dashboard-root"
+      spacing="0">
+
+    <!-- ================= EN-TÊTE ================= -->
+    <HBox alignment="CENTER_LEFT"
+          spacing="14"
+          styleClass="app-header">
+
+        <Label text="📚" styleClass="brand-icon"/>
+
+        <VBox spacing="3">
+            <Label text="Gestion de bibliothèque"
+                   styleClass="app-title"/>
+
+            <Label text="Bienvenue sur votre espace de gestion"
+                   styleClass="app-subtitle"/>
+        </VBox>
+
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <Button text="Se connecter"
+                onAction="#ouvrirConnexion"
+                styleClass="login-button"/>
+    </HBox>
+
+    <!-- ================= CONTENU ================= -->
+    <ScrollPane fitToWidth="true"
+                hbarPolicy="NEVER"
+                styleClass="page-scroll"
+                VBox.vgrow="ALWAYS">
+        <content>
+
+            <VBox spacing="22" styleClass="content-area">
+
+                <!-- Bandeau d'accueil -->
+                <HBox alignment="CENTER_LEFT"
+                      spacing="30"
+                      styleClass="hero-card">
+
+                    <VBox spacing="12" HBox.hgrow="ALWAYS">
+
+                        <Label text="Bienvenue à la bibliothèque"
+                               styleClass="hero-title"/>
+
+                        <Label text="Consultez le catalogue librement ou connectez-vous pour accéder à votre espace."
+                               wrapText="true"
+                               styleClass="hero-text"/>
+
+                        <HBox spacing="12" alignment="CENTER_LEFT">
+                            <Button text="Explorer le catalogue"
+                                    onAction="#ouvrirCatalogue"
+                                    styleClass="primary-button"/>
+                        </HBox>
+                    </VBox>
+
+                    <Label text="📚" styleClass="hero-badge"/>
+                </HBox>
+
+                <!-- Statistiques -->
+                <HBox spacing="16">
+
+                    <HBox alignment="CENTER_LEFT"
+                          spacing="16"
+                          styleClass="stat-card,books-card"
+                          prefWidth="10"
+                          HBox.hgrow="ALWAYS">
+
+                        <Label text="📖" styleClass="stat-icon"/>
+
+                        <VBox spacing="2">
+                            <Label fx:id="lblLivresDisponibles"
+                                   text="0"
+                                   styleClass="stat-value"/>
+                            <Label text="Titres disponibles"
+                                   styleClass="stat-title"/>
+                        </VBox>
+                    </HBox>
+
+                    <HBox alignment="CENTER_LEFT"
+                          spacing="16"
+                          styleClass="stat-card,copies-card"
+                          prefWidth="10"
+                          HBox.hgrow="ALWAYS">
+
+                        <Label text="📚" styleClass="stat-icon"/>
+
+                        <VBox spacing="2">
+                            <Label fx:id="lblExemplairesDisponibles"
+                                   text="0"
+                                   styleClass="stat-value"/>
+                            <Label text="Exemplaires disponibles"
+                                   styleClass="stat-title"/>
+                        </VBox>
+                    </HBox>
+
+                    <HBox alignment="CENTER_LEFT"
+                          spacing="16"
+                          styleClass="stat-card,members-card"
+                          prefWidth="10"
+                          HBox.hgrow="ALWAYS">
+
+                        <Label text="👥" styleClass="stat-icon"/>
+
+                        <VBox spacing="2">
+                            <Label fx:id="lblAdherents"
+                                   text="0"
+                                   styleClass="stat-value"/>
+                            <Label text="Adhérents inscrits"
+                                   styleClass="stat-title"/>
+                        </VBox>
+                    </HBox>
+
+                </HBox>
+
+                <Label text="Que souhaitez-vous faire ?"
+                       styleClass="section-title"/>
+
+                <!-- Cartes d'accès -->
+                <HBox spacing="16">
+
+                    <!-- Espace adhérent : connexion requise -->
+                    <VBox spacing="12"
+                          styleClass="action-card,locked-card"
+                          prefWidth="10"
+                          HBox.hgrow="ALWAYS">
+
+                        <HBox alignment="CENTER_LEFT" spacing="12">
+                            <Label text="👥" styleClass="action-badge,badge-brass"/>
+                            <Label text="Mon espace adhérent"
+                                   styleClass="action-title"/>
+                        </HBox>
+
+                        <Label text="Connectez-vous pour consulter vos informations personnelles."
+                               wrapText="true"
+                               styleClass="section-hint"/>
+
+                        <Region VBox.vgrow="ALWAYS"/>
+
+                        <HBox>
+                            <Button text="Accéder à mon profil"
+                                    onAction="#ouvrirEspaceAdherent"
+                                    styleClass="secondary-button"
+                                    mnemonicParsing="false"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Emprunts personnels : connexion requise -->
+                    <VBox spacing="12"
+                          styleClass="action-card,locked-card"
+                          prefWidth="10"
+                          HBox.hgrow="ALWAYS">
+
+                        <HBox alignment="CENTER_LEFT" spacing="12">
+                            <Label text="📕" styleClass="action-badge,badge-orange"/>
+                            <Label text="Mes emprunts"
+                                   styleClass="action-title"/>
+                        </HBox>
+
+                        <Label text="Connectez-vous pour consulter vos emprunts et leur statut."
+                               wrapText="true"
+                               styleClass="section-hint"/>
+
+                        <Region VBox.vgrow="ALWAYS"/>
+
+                        <HBox>
+                            <Button text="Voir mes emprunts"
+                                    onAction="#ouvrirMesEmprunts"
+                                    styleClass="secondary-button"
+                                    mnemonicParsing="false"/>
+                        </HBox>
+                    </VBox>
+
+                </HBox>
+
+                <!-- Accès sécurisé -->
+                <VBox spacing="10" styleClass="info-card">
+
+                    <Label text="Accès sécurisé"
+                           styleClass="section-title"/>
+
+                    <Label text="Connectez-vous pour accéder aux fonctionnalités selon votre rôle."
+                           wrapText="true"
+                           styleClass="section-hint"/>
+
+                    <HBox spacing="10">
+                        <Label text="Administrateur" styleClass="role-chip"/>
+                        <Label text="Bibliothécaire" styleClass="role-chip"/>
+                        <Label text="Adhérent" styleClass="role-chip"/>
+                    </HBox>
+                </VBox>
+
+            </VBox>
+        </content>
+    </ScrollPane>
+
+    <Label text="© Gestion de bibliothèque"
+           maxWidth="1.7976931348623157E308"
+           styleClass="footer-text">
+        <padding>
+            <Insets top="0" right="0" bottom="15" left="0"/>
+        </padding>
+    </Label>
+
+</VBox>

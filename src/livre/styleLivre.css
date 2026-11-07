@@ -1,0 +1,14 @@
+/* Catalogue des livres : même palette que style.css (noyer, parchemin, laiton) */
+
+.management-root {
+    -fx-background-color: #F3EBDD;
+}
+
+.management-header {
+    -fx-background-color: #4A2C1D;
+}
+
+.management-header .action-icon {
+    -fx-text-fill: #FBF5E9;
+    -fx-font-size: 26px;
+}

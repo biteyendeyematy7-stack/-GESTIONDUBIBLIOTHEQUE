@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="580.0" prefWidth="620.0"
+            stylesheets="@style.css"
+            styleClass="dashboard-root"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="livre.DashboardBibliothecaireController">
+    <children>
+        <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                    AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <top>
+                <HBox alignment="CENTER_LEFT" spacing="16" styleClass="app-header">
+                    <VBox spacing="4">
+                        <Label text="GESTION DE BIBLIOTHÈQUE" styleClass="app-kicker"/>
+                        <Label text="Espace bibliothécaire" styleClass="app-title"/>
+                        <Label text="Gérez le catalogue, les prêts et les retours." styleClass="app-subtitle"/>
+                    </VBox>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label text="BIBLIOTHÉCAIRE" styleClass="role-badge"/>
+                </HBox>
+            </top>
+            <center>
+                <VBox spacing="22" styleClass="content-area">
+                    <VBox spacing="4" styleClass="welcome-card">
+                        <Label text="HEUREUX DE VOUS REVOIR" styleClass="welcome-caption"/>
+                        <Label fx:id="lblBienvenue" text="Bienvenue" styleClass="welcome-name"/>
+                    </VBox>
+                    <VBox spacing="5">
+                        <Label text="Accès rapide" styleClass="section-title"/>
+                        <Label text="Choisissez une opération à effectuer." styleClass="section-hint"/>
+                    </VBox>
+                    <VBox spacing="12">
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ouvrirLivres" styleClass="action-card" text="Gestion des livres">
+                            <graphic><Label text="📚" styleClass="action-icon"/></graphic>
+                        </Button>
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ouvrirEmprunts" styleClass="action-card" text="Gestion des emprunts">
+                            <graphic><Label text="↔" styleClass="action-icon"/></graphic>
+                        </Button>
+                       <Button maxWidth="1.7976931348623157E308"
+        mnemonicParsing="false"
+        onAction="#ouvrirRetours"
+        styleClass="action-card"
+        text="Gestion des retours">
+                            <graphic><Label text="↩" styleClass="action-icon"/></graphic>
+                        </Button>
+                    </VBox>
+                </VBox>
+            </center>
+            <bottom>
+                <HBox alignment="CENTER" spacing="16" style="-fx-padding: 0 34 24 34;">
+                    <Label text="Gestion de bibliothèque • Service des prêts" styleClass="footer-text"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button mnemonicParsing="false" onAction="#deconnexion" styleClass="logout-button" text="Déconnexion"/>
+                </HBox>
+            </bottom>
+        </BorderPane>
+    </children>
+</AnchorPane>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="livre.AccueilController"
+      styleClass="dashboard-root"
+      spacing="0">
+
+    <!-- En-tête -->
+    <HBox alignment="CENTER_LEFT"
+          spacing="15"
+          styleClass="app-header">
+
+        <VBox spacing="4">
+            <Label text="GESTION DE BIBLIOTHÈQUE"
+                   styleClass="app-title"/>
+
+            <Label text="Bienvenue sur votre espace de gestion"
+                   styleClass="app-subtitle"/>
+        </VBox>
+
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <Button text="Se connecter"
+                onAction="#ouvrirConnexion"
+                styleClass="login-button"/>
+    </HBox>
+
+    <!-- Contenu principal -->
+    <VBox spacing="18"
+          styleClass="content-area"
+          VBox.vgrow="ALWAYS">
+
+        <VBox spacing="8"
+              styleClass="welcome-card">
+
+            <Label text="Votre bibliothèque en un seul espace"
+                   styleClass="welcome-name"/>
+
+            <Label text="Consultez le catalogue librement ou connectez-vous pour accéder aux fonctionnalités de gestion."
+                   styleClass="section-hint"/>
+        </VBox>
+
+        <!-- Statistiques -->
+        <HBox spacing="16">
+
+            <VBox spacing="10"
+                  styleClass="stat-card books-card"
+                  HBox.hgrow="ALWAYS">
+
+                <HBox alignment="CENTER_LEFT" spacing="12">
+                    <Label text="📚" styleClass="stat-icon"/>
+                    <Label text="Livres disponibles"
+                           styleClass="stat-title"/>
+                </HBox>
+
+                <Label fx:id="lblLivresDisponibles"
+                       text="0"
+                       styleClass="stat-value"/>
+            </VBox>
+
+            <VBox spacing="10"
+                  styleClass="stat-card members-card"
+                  HBox.hgrow="ALWAYS">
+
+                <HBox alignment="CENTER_LEFT" spacing="12">
+                    <Label text="👥" styleClass="stat-icon"/>
+                    <Label text="Adhérents"
+                           styleClass="stat-title"/>
+                </HBox>
+
+                <Label fx:id="lblAdherents"
+                       text="0"
+                       styleClass="stat-value"/>
+            </VBox>
+
+        </HBox>
+
+        <Label text="Que souhaitez-vous consulter ?"
+               styleClass="section-title"/>
+
+        <HBox spacing="16">
+
+            <VBox spacing="10"
+                  styleClass="action-card"
+                  HBox.hgrow="ALWAYS">
+
+                <Label text="📖  Catalogue des livres"
+                       styleClass="section-title"/>
+
+                <Label text="Consultez la liste des livres de la bibliothèque."
+                       styleClass="section-hint"/>
+
+                <Button text="Consulter les livres"
+                        onAction="#ouvrirCatalogue"
+                        styleClass="primary-button"/>
+            </VBox>
+
+            <VBox spacing="10"
+                  styleClass="action-card"
+                  HBox.hgrow="ALWAYS">
+
+                <Label text="👥  Adhérents"
+                       styleClass="section-title"/>
+
+                <Label text="Connectez-vous pour accéder à la gestion des adhérents."
+                       styleClass="section-hint"/>
+            </VBox>
+
+            <VBox spacing="10"
+                  styleClass="action-card"
+                  HBox.hgrow="ALWAYS">
+
+                <Label text="📚  Emprunts"
+                       styleClass="section-title"/>
+
+                <Label text="Connectez-vous pour suivre les emprunts et les retours."
+                       styleClass="section-hint"/>
+            </VBox>
+
+        </HBox>
+
+        <VBox spacing="8"
+              styleClass="welcome-card">
+
+            <Label text="Accès sécurisé"
+                   styleClass="section-title"/>
+
+            <Label text="Connectez-vous pour accéder aux fonctionnalités selon votre rôle : administrateur, bibliothécaire ou adhérent."
+                   styleClass="section-hint"/>
+        </VBox>
+
+    </VBox>
+
+    <Label text="© Gestion de bibliothèque"
+           styleClass="footer-text">
+        <padding>
+            <Insets top="0" right="0" bottom="15" left="0"/>
+        </padding>
+    </Label>
+
+</VBox>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="livre.RecuperationMotDePasseController"
+      alignment="CENTER"
+      spacing="18"
+      stylesheets="@style.css"
+      styleClass="login-root">
+
+    <padding>
+        <Insets top="40"
+                right="40"
+                bottom="40"
+                left="40"/>
+    </padding>
+
+    <VBox maxWidth="360"
+          spacing="20"
+          styleClass="login-panel">
+
+        <Label text="Mot de passe oublié ?"
+               styleClass="login-title"/>
+
+        <Label text="Vérifiez votre identité puis choisissez un nouveau mot de passe."
+               styleClass="login-subtitle"
+               wrapText="true"/>
+
+        <VBox spacing="7">
+
+            <Label text="Identifiant"
+                   styleClass="field-label"/>
+
+            <TextField fx:id="txtLogin"
+                       promptText="Exemple : fatou.ndiaye"
+                       maxWidth="1.7976931348623157E308"
+                       styleClass="login-field"/>
+
+        </VBox>
+
+        <VBox spacing="7">
+
+            <Label text="Nom"
+                   styleClass="field-label"/>
+
+            <TextField fx:id="txtNom"
+                       promptText="Votre nom"
+                       maxWidth="1.7976931348623157E308"
+                       styleClass="login-field"/>
+
+        </VBox>
+
+        <VBox spacing="7">
+
+            <Label text="Prénom"
+                   styleClass="field-label"/>
+
+            <TextField fx:id="txtPrenom"
+                       promptText="Votre prénom"
+                       maxWidth="1.7976931348623157E308"
+                       styleClass="login-field"/>
+
+        </VBox>
+
+        <VBox spacing="7">
+
+            <Label text="Nouveau mot de passe"
+                   styleClass="field-label"/>
+
+            <PasswordField fx:id="txtNouveauMotDePasse"
+                           promptText="Choisissez un nouveau mot de passe"
+                           maxWidth="1.7976931348623157E308"
+                           styleClass="login-field"/>
+
+        </VBox>
+
+        <VBox spacing="7">
+
+            <Label text="Confirmer le mot de passe"
+                   styleClass="field-label"/>
+
+            <PasswordField fx:id="txtConfirmation"
+                           promptText="Confirmez le mot de passe"
+                           maxWidth="1.7976931348623157E308"
+                           styleClass="login-field"/>
+
+        </VBox>
+
+        <Button text="Réinitialiser le mot de passe"
+                onAction="#reinitialiserMotDePasse"
+                maxWidth="1.7976931348623157E308"
+                styleClass="login-button"
+                mnemonicParsing="false"/>
+
+        <Button text="Retour à la connexion"
+                onAction="#retourConnexion"
+                styleClass="forgot-password-button"
+                mnemonicParsing="false"/>
+
+        <Label fx:id="lblMessage"
+               maxWidth="1.7976931348623157E308"
+               wrapText="true"
+               styleClass="login-message"/>
+
+    </VBox>
+
+</VBox>

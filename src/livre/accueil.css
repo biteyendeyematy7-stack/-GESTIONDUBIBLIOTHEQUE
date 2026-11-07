@@ -1,0 +1,319 @@
+/* ==========================================================
+   Page d'accueil - Gestion de bibliothèque
+   Palette : noyer #4A2C1D, parchemin #F3EBDD, papier #FFFDF8,
+             laiton #B7791F, vert forêt #2F5D46, orange #C0622A
+   ========================================================== */
+
+.dashboard-root {
+    -fx-background-color: #4A2C1D;
+    -fx-background-image: url("images/bibliotheque-moderne-fond.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-background-size: cover;
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* ---------- Défilement transparent ---------- */
+.page-scroll {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-padding: 0;
+}
+
+.page-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+/* ---------- En-tête ---------- */
+.app-header {
+    -fx-background-color: #4A2C1D;
+    -fx-padding: 18 34 18 34;
+    -fx-border-color: #B7791F;
+    -fx-border-width: 0 0 4 0;
+}
+
+.brand-icon {
+    -fx-font-family: "Segoe UI Emoji";
+    -fx-font-size: 22px;
+    -fx-text-fill: white;
+    -fx-alignment: CENTER;
+    -fx-min-width: 46px;
+    -fx-min-height: 46px;
+    -fx-pref-width: 46px;
+    -fx-pref-height: 46px;
+    -fx-max-width: 46px;
+    -fx-max-height: 46px;
+    -fx-background-color: #B7791F;
+    -fx-background-radius: 23px;
+}
+
+.app-title {
+    -fx-text-fill: #FBF5E9;
+    -fx-font-family: "Georgia";
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.app-subtitle {
+    -fx-text-fill: #E6D3B3;
+    -fx-font-size: 12px;
+}
+
+.login-button {
+    -fx-background-color: rgba(255, 255, 255, 0.12);
+    -fx-background-radius: 9px;
+    -fx-border-color: rgba(229, 204, 151, 0.60);
+    -fx-border-radius: 9px;
+    -fx-border-width: 1px;
+    -fx-text-fill: #FBF5E9;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 9 20 9 20;
+    -fx-cursor: hand;
+}
+
+.login-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.22);
+}
+
+.content-area {
+    -fx-padding: 20 36 22 36;
+}
+
+/* ---------- Bandeau d'accueil ---------- */
+.hero-card {
+    -fx-background-color: rgba(255, 251, 243, 0.96);
+    -fx-background-radius: 16px;
+    -fx-border-color: #E3D5BC;
+    -fx-border-radius: 16px;
+    -fx-border-width: 1px;
+    -fx-padding: 30 36 30 36;
+    -fx-effect: dropshadow(gaussian, rgba(74, 44, 29, 0.12), 14, 0.14, 0, 3);
+}
+
+.hero-title {
+    -fx-font-family: "Georgia";
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4A2C1D;
+}
+
+.hero-text {
+    -fx-font-size: 14px;
+    -fx-text-fill: #6B5748;
+    -fx-wrap-text: true;
+}
+
+.hero-badge {
+    -fx-font-family: "Segoe UI Emoji";
+    -fx-font-size: 52px;
+    -fx-text-fill: #E5CC97;
+    -fx-alignment: CENTER;
+    -fx-min-width: 120px;
+    -fx-min-height: 120px;
+    -fx-pref-width: 120px;
+    -fx-pref-height: 120px;
+    -fx-max-width: 120px;
+    -fx-max-height: 120px;
+    -fx-background-color: #4A2C1D;
+    -fx-background-radius: 60px;
+    -fx-border-color: #B7791F;
+    -fx-border-width: 4px;
+    -fx-border-radius: 60px;
+    -fx-effect: dropshadow(gaussian, rgba(74, 44, 29, 0.30), 14, 0.2, 0, 4);
+}
+
+/* ---------- Boutons ---------- */
+.primary-button {
+    -fx-background-color: #B7791F;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10px;
+    -fx-padding: 11 22 11 22;
+    -fx-cursor: hand;
+}
+
+.primary-button:hover {
+    -fx-background-color: #96610F;
+}
+
+.primary-button:pressed {
+    -fx-background-color: #7A4E0A;
+}
+
+.secondary-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #4A2C1D;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10px;
+    -fx-border-color: #4A2C1D;
+    -fx-border-radius: 10px;
+    -fx-border-width: 1.5px;
+    -fx-padding: 10 22 10 22;
+    -fx-cursor: hand;
+}
+
+.secondary-button:hover {
+    -fx-background-color: #F6E7C8;
+}
+
+/* ---------- Statistiques ---------- */
+.stat-card {
+    -fx-background-color: rgba(255, 251, 243, 0.94);
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-border-width: 1 1 1 5;
+    -fx-padding: 16 22 16 18;
+    -fx-min-height: 92px;
+    -fx-effect: dropshadow(gaussian, rgba(74, 44, 29, 0.10), 10, 0.14, 0, 2);
+}
+
+.books-card   { -fx-border-color: #E3D5BC #E3D5BC #E3D5BC #2F5D46; }
+.members-card { -fx-border-color: #E3D5BC #E3D5BC #E3D5BC #B7791F; }
+
+.copies-card { -fx-border-color: #E3D5BC #E3D5BC #E3D5BC #B7791F; }
+.copies-card .stat-icon { -fx-background-color: #B7791F; }
+
+.stat-icon {
+    -fx-font-family: "Segoe UI Emoji";
+    -fx-font-size: 24px;
+    -fx-text-fill: white;
+    -fx-alignment: CENTER;
+    -fx-min-width: 56px;
+    -fx-min-height: 56px;
+    -fx-pref-width: 56px;
+    -fx-pref-height: 56px;
+    -fx-max-width: 56px;
+    -fx-max-height: 56px;
+    -fx-background-radius: 28px;
+}
+
+.books-card .stat-icon   { -fx-background-color: #2F5D46; }
+.members-card .stat-icon { -fx-background-color: #B7791F; }
+
+.stat-value {
+    -fx-font-family: "Georgia";
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4A2C1D;
+}
+
+.stat-title {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6B5748;
+}
+
+/* ---------- Titres et textes ---------- */
+.section-title {
+    -fx-font-family: "Georgia";
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4A2C1D;
+}
+
+/* Le titre de la zone d'actions reste lisible sur la photo de fond. */
+.content-area > .section-title {
+    -fx-background-color: rgba(74, 44, 29, 0.78);
+    -fx-background-radius: 10px;
+    -fx-text-fill: #FBF5E9;
+    -fx-padding: 7 14 7 14;
+    -fx-effect: dropshadow(gaussian, rgba(35, 21, 13, 0.35), 5, 0.18, 0, 2);
+}
+
+.section-hint {
+    -fx-font-size: 13px;
+    -fx-text-fill: #6B5748;
+    -fx-wrap-text: true;
+}
+
+/* ---------- Cartes d'accès ---------- */
+.action-card {
+    -fx-background-color: rgba(255, 251, 243, 0.94);
+    -fx-background-radius: 14px;
+    -fx-border-color: #E3D5BC;
+    -fx-border-radius: 14px;
+    -fx-border-width: 1px;
+    -fx-padding: 20;
+    -fx-min-height: 168px;
+    -fx-effect: dropshadow(gaussian, rgba(74, 44, 29, 0.10), 10, 0.14, 0, 2);
+}
+
+.action-card:hover {
+    -fx-border-color: #B7791F;
+    -fx-effect: dropshadow(gaussian, rgba(183, 121, 31, 0.22), 14, 0.18, 0, 4);
+}
+
+/* Cartes réservées : plus discrètes, sans effet de survol */
+.locked-card {
+    -fx-background-color: rgba(248, 241, 227, 0.94);
+    -fx-border-style: dashed;
+}
+
+.locked-card:hover {
+    -fx-border-color: #E3D5BC;
+    -fx-effect: dropshadow(gaussian, rgba(74, 44, 29, 0.10), 10, 0.14, 0, 2);
+}
+
+.action-title {
+    -fx-font-family: "Georgia";
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4A2C1D;
+}
+
+.action-badge {
+    -fx-font-family: "Segoe UI Emoji";
+    -fx-font-size: 18px;
+    -fx-text-fill: white;
+    -fx-alignment: CENTER;
+    -fx-min-width: 44px;
+    -fx-min-height: 44px;
+    -fx-pref-width: 44px;
+    -fx-pref-height: 44px;
+    -fx-max-width: 44px;
+    -fx-max-height: 44px;
+    -fx-background-radius: 22px;
+}
+
+.badge-green  { -fx-background-color: #2F5D46; }
+.badge-brass  { -fx-background-color: #B7791F; }
+.badge-orange { -fx-background-color: #C0622A; }
+
+.lock-chip {
+    -fx-background-color: #F1E4CB;
+    -fx-background-radius: 12px;
+    -fx-text-fill: #8A5A12;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-padding: 5 12 5 12;
+}
+
+/* ---------- Bloc "Accès sécurisé" ---------- */
+.info-card {
+    -fx-background-color: rgba(255, 251, 243, 0.95);
+    -fx-background-radius: 12px;
+    -fx-border-color: #E3D5BC #E3D5BC #E3D5BC #B7791F;
+    -fx-border-radius: 12px;
+    -fx-border-width: 1 1 1 5;
+    -fx-padding: 18 22 18 20;
+    -fx-effect: dropshadow(gaussian, rgba(74, 44, 29, 0.08), 8, 0.12, 0, 2);
+}
+
+.role-chip {
+    -fx-background-color: #F6E7C8;
+    -fx-background-radius: 14px;
+    -fx-text-fill: #6B4410;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 6 14 6 14;
+}
+
+/* ---------- Pied de page ---------- */
+.footer-text {
+    -fx-text-fill: #6B5748;
+    -fx-font-size: 11px;
+    -fx-background-color: rgba(248, 239, 220, 0.96);
+    -fx-padding: 0 36 15 36;
+}

@@ -1,0 +1,121 @@
+/* Gestion des adhérents : palette noyer, parchemin, laiton.
+   Complète style.css et styleCartes.css (chargés avant). */
+
+.management-root {
+    -fx-background-color: #F3EBDD;
+}
+
+.management-header {
+    -fx-background-color: #4A2C1D;
+}
+
+.management-header .action-icon {
+    -fx-text-fill: #FBF5E9;
+    -fx-font-size: 26px;
+}
+
+/* Retour vers le tableau de bord administrateur */
+.dashboard-return-button {
+    -fx-background-color: #FFFDF8;
+    -fx-text-fill: #4A2C1D;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-min-width: 225px;
+    -fx-min-height: 42px;
+    -fx-padding: 10px 18px;
+    -fx-background-radius: 9px;
+    -fx-border-color: #B7791F;
+    -fx-border-radius: 9px;
+    -fx-cursor: hand;
+}
+
+.dashboard-return-button:hover {
+    -fx-background-color: #F6E7C8;
+}
+
+/* ---------- Titre de section du formulaire ---------- */
+.form-section {
+    -fx-font-family: "Georgia";
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4A2C1D;
+}
+
+/* ---------- Carte d'adhérent ---------- */
+.adherent-carte {
+    -fx-background-color: #FFFDF8;
+    -fx-background-radius: 14px;
+    -fx-border-color: #EADFC8;
+    -fx-border-width: 2;
+    -fx-border-radius: 14px;
+    -fx-padding: 16 18 16 18;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(74, 44, 29, 0.10), 10, 0.14, 0, 2);
+}
+
+.adherent-carte:hover {
+    -fx-border-color: #B7791F;
+    -fx-translate-y: -3;
+    -fx-effect: dropshadow(gaussian, rgba(183, 121, 31, 0.25), 14, 0.18, 0, 5);
+}
+
+/* Adhérent sélectionné */
+.adherent-carte-selectionnee {
+    -fx-background-color: #FBF1DC;
+    -fx-border-color: #B7791F;
+}
+
+.adherent-avatar {
+    -fx-font-family: "Georgia";
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-alignment: CENTER;
+    -fx-min-width: 52px;
+    -fx-min-height: 52px;
+    -fx-pref-width: 52px;
+    -fx-pref-height: 52px;
+    -fx-max-width: 52px;
+    -fx-max-height: 52px;
+    -fx-background-radius: 26px;
+}
+
+.adherent-nom {
+    -fx-font-family: "Georgia";
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4A2C1D;
+}
+
+.adherent-login {
+    -fx-background-color: #F1E4CB;
+    -fx-background-radius: 10px;
+    -fx-text-fill: #8A5A12;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-padding: 2 10 2 10;
+}
+
+.badge-nouveau {
+    -fx-background-color: #FBE3CF;
+    -fx-background-radius: 10px;
+    -fx-text-fill: #A24F1D;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-padding: 3 10 3 10;
+}
+
+.adherent-separateur {
+    -fx-background-color: #EADFC8;
+}
+
+.adherent-icone {
+    -fx-font-family: "Segoe UI Emoji";
+    -fx-font-size: 13px;
+    -fx-text-fill: #B7791F;
+}
+
+.adherent-info {
+    -fx-font-size: 13px;
+    -fx-text-fill: #4A2C1D;
+}

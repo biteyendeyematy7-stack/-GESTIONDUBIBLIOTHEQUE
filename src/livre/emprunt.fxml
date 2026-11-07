@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import java.net.URL?>
+
+<AnchorPane prefHeight="680.0" prefWidth="1100.0"
+            styleClass="management-root"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="livre.EmpruntController">
+
+    <stylesheets>
+        <URL value="@style.css"/>
+        <URL value="@styleEmprunt.css"/>
+    </stylesheets>
+
+    <children>
+
+        <BorderPane AnchorPane.bottomAnchor="0.0"
+                    AnchorPane.leftAnchor="0.0"
+                    AnchorPane.rightAnchor="0.0"
+                    AnchorPane.topAnchor="0.0">
+
+            <!-- ================= HEADER ================= -->
+
+            <top>
+                <HBox alignment="CENTER_LEFT"
+                      spacing="14"
+                      styleClass="management-header">
+
+                    <Label text="↔"
+                           styleClass="action-icon"/>
+
+                    <VBox spacing="3">
+
+                        <Label text="Gestion des emprunts"
+                               styleClass="management-title"/>
+
+                        <Label text="Enregistrez les prêts et les retours, puis suivez leur statut."
+                               styleClass="management-subtitle"/>
+
+                    </VBox>
+
+                    <Region HBox.hgrow="ALWAYS"/>
+
+                    <Button mnemonicParsing="false"
+                            onAction="#retourAuTableauDeBord"
+                            styleClass="back-button"
+                            text="← Tableau de bord"/>
+
+                </HBox>
+            </top>
+
+            <!-- ================= CONTENU ================= -->
+
+            <center>
+
+                <VBox spacing="16"
+                      styleClass="management-content">
+
+                    <!-- ================= NOUVEL EMPRUNT ================= -->
+
+                    <HBox spacing="16">
+
+                        <VBox maxWidth="1.7976931348623157E308"
+                              spacing="13"
+                              styleClass="form-card"
+                              HBox.hgrow="ALWAYS">
+
+                            <VBox spacing="3">
+
+                                <Label text="Nouvel emprunt"
+                                       styleClass="card-title"/>
+
+                                <Label text="Saisissez les identifiants et les dates du prêt."
+                                       styleClass="card-hint"/>
+
+                            </VBox>
+
+                            <!-- Livre + adhérent -->
+
+                            <HBox spacing="10">
+
+                                <ComboBox fx:id="cmbLivre"
+                                          maxWidth="1.7976931348623157E308"
+                                          promptText="Choisir un livre disponible"
+                                          styleClass="form-field"
+                                          HBox.hgrow="ALWAYS"/>
+
+                                <ComboBox fx:id="cmbAdherent"
+                                          maxWidth="1.7976931348623157E308"
+                                          promptText="Choisir un adhérent"
+                                          styleClass="form-field"
+                                          HBox.hgrow="ALWAYS"/>
+
+                            </HBox>
+
+                            <!-- DATES -->
+
+                            <HBox spacing="10">
+
+                                <DatePicker fx:id="txtDateEmprunt"
+                                            promptText="Date d'emprunt"
+                                            styleClass="form-field"
+                                            HBox.hgrow="ALWAYS"/>
+
+                                <DatePicker fx:id="txtDateRetourPrevue"
+                                            promptText="Retour prévu"
+                                            styleClass="form-field"
+                                            HBox.hgrow="ALWAYS"/>
+
+                            </HBox>
+
+                            <Button mnemonicParsing="false"
+                                    onAction="#ajouterEmprunt"
+                                    styleClass="primary-button"
+                                    text="Enregistrer l'emprunt"/>
+
+                        </VBox>
+
+                        <!-- ================= RETOUR ================= -->
+
+                        <VBox maxWidth="1.7976931348623157E308"
+                              spacing="13"
+                              styleClass="form-card"
+                              HBox.hgrow="ALWAYS">
+
+                            <VBox spacing="3">
+
+                                <Label text="Retour d'un livre"
+                                       styleClass="card-title"/>
+
+                                <Label text="Sélectionnez une ligne du tableau ou indiquez son ID."
+                                       styleClass="card-hint"/>
+
+                            </VBox>
+
+                            <HBox spacing="10">
+
+                                <ComboBox fx:id="cmbEmpruntRetour"
+                                          maxWidth="1.7976931348623157E308"
+                                          promptText="Sélectionner l'emprunt"
+                                          styleClass="form-field"
+                                          HBox.hgrow="ALWAYS"/>
+
+                                <DatePicker fx:id="txtDateRetourReelle"
+                                            promptText="Date de retour réelle"
+                                            styleClass="form-field"
+                                            HBox.hgrow="ALWAYS"/>
+
+                            </HBox>
+
+                            <Button mnemonicParsing="false"
+                                    onAction="#enregistrerRetour"
+                                    styleClass="return-button"
+                                    text="Enregistrer le retour"/>
+
+                        </VBox>
+
+                    </HBox>
+
+                    <!-- ================= HISTORIQUE ================= -->
+
+                    <VBox spacing="8"
+                          VBox.vgrow="ALWAYS">
+
+                        <Label text="Historique des emprunts"
+                               styleClass="card-title"/>
+
+                        <TableView fx:id="tableEmprunts"
+                                   styleClass="library-table"
+                                   VBox.vgrow="ALWAYS">
+
+                            <columns>
+
+                                <TableColumn fx:id="colId"
+                                             prefWidth="55.0"
+                                             text="ID"/>
+
+                                <TableColumn fx:id="colLivre"
+                                             prefWidth="180.0"
+                                             text="Livre"/>
+
+                                <TableColumn fx:id="colNom"
+                                             prefWidth="115.0"
+                                             text="Nom"/>
+
+                                <TableColumn fx:id="colPrenom"
+                                             prefWidth="115.0"
+                                             text="Prénom"/>
+
+                                <TableColumn fx:id="colDateEmprunt"
+                                             prefWidth="130.0"
+                                             text="Emprunt"/>
+
+                                <TableColumn fx:id="colDateRetour"
+                                             prefWidth="135.0"
+                                             text="Retour prévu"/>
+
+                                <TableColumn fx:id="colDateRetourReelle"
+                                             prefWidth="125.0"
+                                             text="Retour réel"/>
+
+                                <TableColumn fx:id="colStatut"
+                                             prefWidth="115.0"
+                                             text="Statut"/>
+
+                            </columns>
+
+                        </TableView>
+
+                        <Label fx:id="lblMessage"
+                               maxWidth="1.7976931348623157E308"
+                               styleClass="status-message"/>
+
+                    </VBox>
+
+                </VBox>
+
+            </center>
+
+        </BorderPane>
+
+    </children>
+
+</AnchorPane>

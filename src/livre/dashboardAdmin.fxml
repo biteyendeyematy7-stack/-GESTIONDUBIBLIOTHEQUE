@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="620.0" prefWidth="620.0"
+            stylesheets="@style.css"
+            styleClass="dashboard-root"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="livre.DashboardAdminController">
+
+    <children>
+        <BorderPane AnchorPane.bottomAnchor="0.0"
+                    AnchorPane.leftAnchor="0.0"
+                    AnchorPane.rightAnchor="0.0"
+                    AnchorPane.topAnchor="0.0">
+
+            <top>
+                <HBox alignment="CENTER_LEFT" spacing="16" styleClass="app-header">
+                    <VBox spacing="4">
+                        <Label text="GESTION DE BIBLIOTHÈQUE" styleClass="app-kicker"/>
+                        <Label text="Espace administrateur" styleClass="app-title"/>
+                        <Label text="Pilotez votre bibliothèque depuis un seul endroit." styleClass="app-subtitle"/>
+                    </VBox>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label text="ADMINISTRATEUR" styleClass="role-badge"/>
+                </HBox>
+            </top>
+
+            <center>
+                <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="page-scroll"
+                            style="-fx-background: transparent; -fx-background-color: transparent; -fx-padding: 0;">
+                    <content>
+                <VBox spacing="22" styleClass="content-area">
+                    <VBox spacing="4" styleClass="welcome-card">
+                        <Label text="HEUREUX DE VOUS REVOIR" styleClass="welcome-caption"/>
+                        <Label fx:id="lblBienvenue" text="Bienvenue" styleClass="welcome-name"/>
+                    </VBox>
+
+                    <VBox spacing="5">
+                        <Label text="Accès rapide" styleClass="section-title"/>
+                        <Label text="Choisissez un module pour continuer." styleClass="section-hint"/>
+                    </VBox>
+
+                    <VBox spacing="12">
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ouvrirLivres" styleClass="action-card" text="Gestion des livres">
+                            <graphic><Label text="📚" styleClass="action-icon"/></graphic>
+                        </Button>
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ouvrirAdherents" styleClass="action-card" text="Gestion des adhérents">
+                            <graphic><Label text="👥" styleClass="action-icon"/></graphic>
+                        </Button>
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ouvrirEmprunts" styleClass="action-card" text="Gestion des emprunts">
+                            <graphic><Label text="📕" styleClass="action-icon"/></graphic>
+                        </Button>
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ouvrirStatistiques" styleClass="action-card" text="Tableau de bord et statistiques">
+                            <graphic><Label text="📊" styleClass="action-icon"/></graphic>
+                        </Button>
+                    </VBox>
+                </VBox>
+                    </content>
+                </ScrollPane>
+            </center>
+
+            <bottom>
+                <HBox alignment="CENTER" spacing="16" style="-fx-padding: 14 34 24 34;">
+                    <Label text="Gestion de bibliothèque • Administration" styleClass="footer-text"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button mnemonicParsing="false" onAction="#deconnexion" styleClass="logout-button" text="Déconnexion"/>
+                </HBox>
+            </bottom>
+        </BorderPane>
+    </children>
+</AnchorPane>

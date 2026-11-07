@@ -1,0 +1,53 @@
+/* Thème exclusif à dashboardAdherent.fxml */
+
+.dashboard-root {
+    -fx-background-color: linear-gradient(to bottom right, #fff7fc 0%, #f2efff 52%, #eaf7ff 100%);
+}
+
+.app-header {
+    -fx-background-color: linear-gradient(to right, #754a9d 0%, #a363ad 55%, #d17a9a 100%);
+}
+
+.app-kicker { -fx-text-fill: #fbe5f3; }
+.app-subtitle { -fx-text-fill: #fff1fa; }
+
+.role-badge {
+    -fx-background-color: rgba(255, 255, 255, 0.18);
+    -fx-border-color: rgba(255, 255, 255, 0.45);
+}
+
+.welcome-card {
+    -fx-background-color: linear-gradient(to right, #fffafd 0%, #f8f4ff 100%);
+    -fx-border-color: #eadcf3;
+    -fx-border-radius: 16px;
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(gaussian, rgba(121, 76, 153, 0.14), 18, 0.18, 0, 4);
+}
+
+.welcome-caption { -fx-text-fill: #9c6fa9; }
+.welcome-name, .section-title { -fx-text-fill: #6d3c88; }
+.section-hint { -fx-text-fill: #8a788f; }
+
+.action-card {
+    -fx-background-color: rgba(255, 255, 255, 0.92);
+    -fx-border-color: #eadff0;
+    -fx-text-fill: #70437f;
+}
+
+.action-card:hover {
+    -fx-background-color: #fff2fa;
+    -fx-border-color: #d784ad;
+    -fx-effect: dropshadow(gaussian, rgba(172, 93, 147, 0.20), 13, 0.18, 0, 3);
+}
+
+.action-card:pressed { -fx-background-color: #f8e2f0; }
+
+.logout-button {
+    -fx-border-color: #bd638d;
+    -fx-text-fill: #a74976;
+}
+
+.logout-button:hover {
+    -fx-background-color: #fff0f6;
+    -fx-border-color: #a74976;
+}

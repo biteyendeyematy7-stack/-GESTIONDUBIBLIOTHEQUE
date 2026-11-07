@@ -1,0 +1,58 @@
+/* Thème exclusif à emprunt.fxml — bordeaux et beige */
+
+.management-root {
+    -fx-background-color: linear-gradient(to bottom right, #fbf7f2 0%, #f7eee6 100%);
+}
+
+.management-header {
+    -fx-background-color: linear-gradient(to right, #5c1f2a 0%, #813341 55%, #a34d55 100%);
+}
+
+.form-card, .search-card {
+    -fx-background-color: #fffdfa;
+    -fx-effect: dropshadow(gaussian, rgba(95, 35, 44, 0.12), 13, 0.16, 0, 3);
+}
+
+.card-title { -fx-text-fill: #702d38; }
+.card-hint { -fx-text-fill: #8e7770; }
+
+.form-field, .search-field {
+    -fx-background-color: #fdf9f5;
+    -fx-border-color: #eadbd0;
+}
+
+.form-field:focused, .search-field:focused {
+    -fx-border-color: #aa5a55;
+    -fx-effect: dropshadow(gaussian, rgba(142, 59, 59, 0.14), 8, 0.14, 0, 0);
+}
+
+.primary-button {
+    -fx-background-color: #873844;
+}
+
+.primary-button:hover {
+    -fx-background-color: #682832;
+}
+
+.return-button {
+    -fx-background-color: #c68a55;
+    -fx-background-radius: 8px;
+    -fx-padding: 9 14 9 14;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.return-button:hover {
+    -fx-background-color: #a86e3d;
+}
+
+.library-table {
+    -fx-border-color: #eadbd0;
+}
+
+.library-table .column-header-background { -fx-background-color: #f7ece3; }
+.library-table .column-header .label { -fx-text-fill: #743744; }
+.library-table .table-row-cell:odd { -fx-background-color: #fffcf9; }
+.library-table .table-row-cell:selected { -fx-background-color: #f5dfd6; }

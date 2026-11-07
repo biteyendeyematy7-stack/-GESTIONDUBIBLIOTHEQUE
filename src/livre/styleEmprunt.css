@@ -1,0 +1,54 @@
+/* Gestion des emprunts : même palette que style.css (noyer, parchemin, laiton) */
+
+.management-root {
+    -fx-background-color: #F3EBDD;
+}
+
+.management-header {
+    -fx-background-color: #4A2C1D;
+}
+
+.management-header .action-icon {
+    -fx-text-fill: #FBF5E9;
+    -fx-font-size: 26px;
+}
+
+/* Bouton d'enregistrement du retour : laiton, pour le distinguer du prêt */
+.return-button {
+    -fx-background-color: #B7791F;
+    -fx-background-radius: 8px;
+    -fx-padding: 9 14 9 14;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.return-button:hover {
+    -fx-background-color: #96610F;
+}
+
+.return-button:pressed {
+    -fx-background-color: #7A4E0A;
+}
+
+/* Listes déroulantes et sélecteurs de date */
+.combo-box.form-field,
+.date-picker.form-field {
+    -fx-max-width: infinity;
+}
+
+.combo-box.form-field .list-cell {
+    -fx-text-fill: #3E2C23;
+    -fx-background-color: transparent;
+}
+
+.combo-box.form-field .arrow-button,
+.date-picker.form-field .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.date-picker.form-field .text-field {
+    -fx-background-color: transparent;
+    -fx-text-fill: #3E2C23;
+}

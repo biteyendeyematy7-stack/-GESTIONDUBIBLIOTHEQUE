@@ -1,0 +1,125 @@
+/* Emprunts et retours : palette noyer, parchemin, laiton.
+   Complète style.css (chargé avant). */
+
+/* ---------- En-tête ---------- */
+.suivi-header-icon {
+    -fx-font-family: "Segoe UI Emoji";
+    -fx-font-size: 28px;
+    -fx-text-fill: #E5CC97;
+}
+
+/* ---------- Listes déroulantes et sélecteurs de date ---------- */
+.combo-box.form-field,
+.date-picker.form-field {
+    -fx-pref-height: 38px;
+    -fx-max-width: infinity;
+    -fx-padding: 0;
+}
+
+.combo-box.form-field .list-cell {
+    -fx-text-fill: #3E2C23;
+    -fx-background-color: transparent;
+    -fx-padding: 0 0 0 10;
+}
+
+.combo-box.form-field .arrow-button,
+.date-picker.form-field .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.date-picker.form-field .text-field {
+    -fx-background-color: transparent;
+    -fx-text-fill: #3E2C23;
+    -fx-prompt-text-fill: #A8977F;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: #FFFDF8;
+    -fx-border-color: #E3D5BC;
+}
+
+.combo-box-popup .list-cell {
+    -fx-text-fill: #3E2C23;
+    -fx-padding: 8 12 8 12;
+}
+
+.combo-box-popup .list-cell:filled:hover,
+.combo-box-popup .list-cell:filled:selected {
+    -fx-background-color: #F6E7C8;
+    -fx-text-fill: #4A2C1D;
+}
+
+/* ---------- Boutons de filtre ---------- */
+.filter-chip {
+    -fx-background-color: #F1E4CB;
+    -fx-background-radius: 16px;
+    -fx-text-fill: #6B4410;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 6 16 6 16;
+    -fx-cursor: hand;
+}
+
+.filter-chip:hover {
+    -fx-background-color: #EBD6A8;
+}
+
+.filter-chip:selected {
+    -fx-background-color: #4A2C1D;
+    -fx-text-fill: white;
+}
+
+/* ---------- Puces de statut (dans les tableaux) ---------- */
+.chip {
+    -fx-background-radius: 12px;
+    -fx-padding: 3 12 3 12;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.chip-en-cours {
+    -fx-background-color: #FBE3CF;
+    -fx-text-fill: #A24F1D;
+}
+
+.chip-en-retard {
+    -fx-background-color: #FBEAE6;
+    -fx-text-fill: #9B2C2C;
+}
+
+.chip-retourne {
+    -fx-background-color: #E4EFE6;
+    -fx-text-fill: #2F5D46;
+}
+
+/* ---------- Tableaux plus aérés ---------- */
+.library-table .table-row-cell {
+    -fx-cell-size: 44px;
+}
+
+.library-table .table-row-cell.ligne-retard {
+    -fx-background-color: #FDF3F0;
+}
+
+.library-table .table-row-cell.ligne-retard:selected {
+    -fx-background-color: #F6E7C8;
+}
+
+.library-table .table-cell {
+    -fx-padding: 0 0 0 10;
+}
+
+/* ---------- Messages ---------- */
+.status-message.status-ok {
+    -fx-text-fill: #2F5D46;
+    -fx-font-weight: bold;
+}
+
+.status-message.status-erreur {
+    -fx-text-fill: #9B2C2C;
+    -fx-font-weight: bold;
+}
+
+.status-message.status-info {
+    -fx-text-fill: #6B5748;
+}

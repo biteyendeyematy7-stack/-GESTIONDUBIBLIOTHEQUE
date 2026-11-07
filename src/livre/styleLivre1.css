@@ -1,0 +1,37 @@
+/* Thème exclusif à livre.fxml — catalogue émeraude */
+
+.management-root {
+    -fx-background-color: linear-gradient(to bottom right, #f5fbf8 0%, #edf7f1 100%);
+}
+
+.management-header {
+    -fx-background-color: linear-gradient(to right, #174f46 0%, #277a64 55%, #56a97e 100%);
+}
+
+.form-card, .search-card {
+    -fx-effect: dropshadow(gaussian, rgba(30, 100, 77, 0.11), 13, 0.16, 0, 3);
+}
+
+.card-title { -fx-text-fill: #21604d; }
+.form-field:focused, .search-field:focused { -fx-border-color: #449b76; }
+
+.primary-button, .search-button {
+    -fx-background-color: #2b866a;
+}
+
+.primary-button:hover, .search-button:hover {
+    -fx-background-color: #1f6a54;
+}
+
+.secondary-button, .clear-button {
+    -fx-background-color: #e2f2e9;
+    -fx-text-fill: #25624e;
+}
+
+.secondary-button:hover, .clear-button:hover {
+    -fx-background-color: #d1eade;
+}
+
+.library-table .column-header-background { -fx-background-color: #e7f5ed; }
+.library-table .column-header .label { -fx-text-fill: #2a624f; }
+.library-table .table-row-cell:selected { -fx-background-color: #d8f0e2; }

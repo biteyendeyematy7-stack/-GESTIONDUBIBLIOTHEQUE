@@ -1,0 +1,156 @@
+/* Tableau de bord et statistiques : palette noyer, parchemin, laiton */
+
+.stats-root {
+    -fx-background-color: #F3EBDD;
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* ---------- En-tête ---------- */
+.stats-header {
+    -fx-background-color: #4A2C1D;
+    -fx-padding: 22 30 22 30;
+    -fx-border-color: #B7791F;
+    -fx-border-width: 0 0 4 0;
+}
+
+.header-icon {
+    -fx-text-fill: #E5CC97;
+    -fx-font-size: 28px;
+    -fx-font-family: "Segoe UI Emoji";
+}
+
+.titre-statistiques {
+    -fx-font-family: "Georgia";
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FBF5E9;
+}
+
+.sous-titre-statistiques {
+    -fx-font-size: 12px;
+    -fx-text-fill: #E6D3B3;
+}
+
+.bouton-fermer {
+    -fx-background-color: rgba(255, 255, 255, 0.12);
+    -fx-background-radius: 8px;
+    -fx-border-color: rgba(229, 204, 151, 0.55);
+    -fx-border-radius: 8px;
+    -fx-border-width: 1px;
+    -fx-padding: 9 18 9 18;
+    -fx-text-fill: #FBF5E9;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.bouton-fermer:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.22);
+}
+
+/* ---------- Contenu ---------- */
+.stats-content {
+    -fx-padding: 24 30 26 30;
+}
+
+/* ---------- Cartes d'indicateurs ---------- */
+.carte-statistique {
+    -fx-background-color: #FFFDF8;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-border-width: 1 1 1 5;
+    -fx-padding: 14 18 14 16;
+    -fx-min-height: 92px;
+    -fx-max-width: infinity;
+    -fx-effect: dropshadow(gaussian, rgba(74, 44, 29, 0.10), 10, 0.14, 0, 2);
+}
+
+/* Pastille ronde colorée derrière l'icône */
+.icone-statistique {
+    -fx-font-family: "Segoe UI Emoji";
+    -fx-font-size: 24px;
+    -fx-text-fill: white;
+    -fx-alignment: CENTER;
+    -fx-min-width: 56px;
+    -fx-min-height: 56px;
+    -fx-pref-width: 56px;
+    -fx-pref-height: 56px;
+    -fx-max-width: 56px;
+    -fx-max-height: 56px;
+    -fx-background-radius: 28px;
+}
+
+.valeur-statistique {
+    -fx-font-family: "Georgia";
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4A2C1D;
+}
+
+.libelle-statistique {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6B5748;
+}
+
+/* ---------- Une couleur par indicateur ---------- */
+.carte-livres       { -fx-border-color: #E3D5BC #E3D5BC #E3D5BC #6B4430; }
+.carte-livres .icone-statistique { -fx-background-color: #6B4430; }
+
+.carte-disponibles  { -fx-border-color: #E3D5BC #E3D5BC #E3D5BC #2F5D46; }
+.carte-disponibles .icone-statistique { -fx-background-color: #2F5D46; }
+
+.carte-adherents    { -fx-border-color: #E3D5BC #E3D5BC #E3D5BC #B7791F; }
+.carte-adherents .icone-statistique { -fx-background-color: #B7791F; }
+
+.carte-emprunts     { -fx-border-color: #E3D5BC #E3D5BC #E3D5BC #C0622A; }
+.carte-emprunts .icone-statistique { -fx-background-color: #C0622A; }
+
+.carte-retards      { -fx-border-color: #E3D5BC #E3D5BC #E3D5BC #9B2C2C; }
+.carte-retards .icone-statistique { -fx-background-color: #9B2C2C; }
+.carte-retards .valeur-statistique { -fx-text-fill: #9B2C2C; }
+
+.carte-retours      { -fx-border-color: #E3D5BC #E3D5BC #E3D5BC #5E8A6E; }
+.carte-retours .icone-statistique { -fx-background-color: #5E8A6E; }
+
+/* ---------- Carte du graphique ---------- */
+.chart-card {
+    -fx-background-color: #FFFDF8;
+    -fx-background-radius: 12px;
+    -fx-border-color: #E3D5BC;
+    -fx-border-radius: 12px;
+    -fx-border-width: 1px;
+    -fx-padding: 18;
+    -fx-effect: dropshadow(gaussian, rgba(74, 44, 29, 0.10), 10, 0.14, 0, 2);
+}
+
+.card-title {
+    -fx-font-family: "Georgia";
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4A2C1D;
+}
+
+.card-hint {
+    -fx-font-size: 11px;
+    -fx-text-fill: #8C7A68;
+}
+
+/* Couleurs des parts : en cours, en retard, retournés (dans cet ordre) */
+.default-color0.chart-pie { -fx-pie-color: #C0622A; }
+.default-color1.chart-pie { -fx-pie-color: #9B2C2C; }
+.default-color2.chart-pie { -fx-pie-color: #2F5D46; }
+
+.chart-pie {
+    -fx-background-color: -fx-pie-color;
+    -fx-border-color: #FFFDF8;
+    -fx-border-width: 2px;
+}
+
+.chart-legend {
+    -fx-background-color: transparent;
+}
+
+.chart-legend-item {
+    -fx-text-fill: #4A2C1D;
+    -fx-font-size: 12px;
+}

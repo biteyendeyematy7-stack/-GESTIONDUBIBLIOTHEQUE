@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="520.0"
+            prefWidth="480.0"
+            stylesheets="@style.css"
+            styleClass="login-root"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="livre.LoginController">
+
+    <children>
+
+        <VBox alignment="CENTER"
+              spacing="18"
+              AnchorPane.bottomAnchor="24.0"
+              AnchorPane.leftAnchor="48.0"
+              AnchorPane.rightAnchor="48.0"
+              AnchorPane.topAnchor="24.0">
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <VBox maxWidth="360.0"
+                  spacing="20"
+                  styleClass="login-panel">
+
+                <!-- En-tête -->
+                <HBox alignment="CENTER_LEFT"
+                      spacing="13">
+
+                    <Label text="📚"
+                           styleClass="login-icon"/>
+
+                    <VBox spacing="3">
+                    <Label text="Bienvenue !"
+                         styleClass="login-title"/>
+
+                        <Label text="Connectez-vous à votre bibliothèque."
+                               styleClass="login-subtitle"/>
+
+                    </VBox>
+
+                </HBox>
+
+               <!-- Identifiant -->
+<VBox spacing="5">
+
+    <Label text="Identifiant"
+           styleClass="field-label"/>
+
+    <TextField fx:id="txtLogin"
+               promptText="Exemple : prenom.nom"
+               maxWidth="1.7976931348623157E308"
+               styleClass="login-field"/>
+
+    <Label text="Format : prénom.nom — Exemple : fatou.ndiaye"
+           styleClass="login-hint"/>
+
+</VBox>
+
+                <!-- Mot de passe -->
+                <VBox spacing="7">
+
+                    <Label text="Mot de passe"
+                           styleClass="field-label"/>
+
+                    <PasswordField fx:id="txtMotDePasse"
+                                   maxWidth="1.7976931348623157E308"
+                                   promptText="Entrez votre mot de passe"
+                                   styleClass="login-field"/>
+                                   <Button text="Mot de passe oublié ?"
+        onAction="#motDePasseOublie"
+        styleClass="forgot-password-button"
+        mnemonicParsing="false"/>
+
+                </VBox>
+
+                <!-- Bouton connexion -->
+                <Button maxWidth="1.7976931348623157E308"
+                        mnemonicParsing="false"
+                        onAction="#seConnecter"
+                        styleClass="login-button"
+                        text="Se connecter"/>
+
+                <!-- Message -->
+                <Label fx:id="lblMessage"
+                       maxWidth="1.7976931348623157E308"
+                       styleClass="login-message"/>
+
+            </VBox>
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <Label text="Gestion de bibliothèque • Accès sécurisé"
+                   styleClass="login-footer"/>
+
+        </VBox>
+
+    </children>
+
+</AnchorPane>

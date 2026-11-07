@@ -1,0 +1,47 @@
+.root {
+    -fx-background-color: #f5f7fa;
+}
+
+/* Titre */
+.titre {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+/* Zone contenant les informations */
+.profil-box {
+    -fx-background-color: white;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-border-color: #dfe6e9;
+    -fx-padding: 25px;
+}
+
+/* Noms des champs */
+.label-champ {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #555555;
+}
+
+/* Valeurs */
+.label-valeur {
+    -fx-font-size: 14px;
+    -fx-text-fill: #2c3e50;
+}
+
+/* Bouton retour */
+.bouton-retour {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px 25px;
+    -fx-cursor: hand;
+}
+
+.bouton-retour:hover {
+    -fx-background-color: #2980b9;
+}

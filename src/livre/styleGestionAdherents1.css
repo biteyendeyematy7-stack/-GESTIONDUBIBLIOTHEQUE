@@ -1,0 +1,81 @@
+/* Thème exclusif à adherent.fxml — accueil et profils */
+
+.management-root {
+    -fx-background-color: linear-gradient(to bottom right, #fdf8ff 0%, #f5effc 56%, #fff5fa 100%);
+}
+
+.management-header {
+    -fx-background-color: linear-gradient(to right, #623c86 0%, #9163ad 52%, #ca7f9e 100%);
+}
+
+.form-card, .search-card {
+    -fx-effect: dropshadow(gaussian, rgba(115, 70, 142, 0.12), 13, 0.16, 0, 3);
+}
+
+.card-title { -fx-text-fill: #71438a; }
+.card-hint { -fx-text-fill: #8d7a93; }
+.form-field:focused, .search-field:focused { -fx-border-color: #b36fa5; }
+
+.primary-button, .search-button {
+    -fx-background-color: #9a5f9d;
+}
+
+.primary-button:hover, .search-button:hover {
+    -fx-background-color: #7b477f;
+}
+
+.secondary-button, .clear-button {
+    -fx-background-color: #f1e6f4;
+    -fx-text-fill: #754886;
+}
+
+.secondary-button:hover, .clear-button:hover {
+    -fx-background-color: #e8d8ed;
+}
+
+.library-table .column-header-background { -fx-background-color: #f3eaf7; }
+.library-table .column-header .label { -fx-text-fill: #704884; }
+.library-table .table-row-cell:selected { -fx-background-color: #f0dff0; }
+/* Grand tableau : davantage de lignes visibles */
+.library-table {
+    -fx-fixed-cell-size: 36px;
+    -fx-pref-height: 390px;
+    -fx-min-height: 300px;
+}
+
+/* Retour vers le dashboard administrateur */
+.dashboard-return-button {
+    -fx-background-color: rgba(255, 255, 255, 0.92);
+    -fx-text-fill: #623c86;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-min-width: 225px;
+    -fx-min-height: 42px;
+    -fx-padding: 10px 18px;
+    -fx-background-radius: 9px;
+    -fx-cursor: hand;
+}
+
+.dashboard-return-button:hover {
+    -fx-background-color: #f3eaf7;
+}
+/* Barre de défilement visible dans la table */
+.library-table .scroll-bar:vertical {
+    -fx-pref-width: 16px;
+    -fx-opacity: 1;
+}
+
+.library-table .scroll-bar:vertical .track {
+    -fx-background-color: #eee4f2;
+    -fx-background-radius: 8px;
+}
+
+.library-table .scroll-bar:vertical .thumb {
+    -fx-background-color: #9a5f9d;
+    -fx-background-radius: 8px;
+}
+
+.library-table .scroll-bar:vertical .increment-button,
+.library-table .scroll-bar:vertical .decrement-button {
+    -fx-padding: 5px;
+}
