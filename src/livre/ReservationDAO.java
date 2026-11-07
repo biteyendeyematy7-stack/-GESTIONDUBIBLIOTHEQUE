@@ -1,0 +1,223 @@
+package livre;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class ReservationDAO {
+
+    public boolean reserver(int idLivre, int idAdherent) {
+        if (idLivre <= 0 || idAdherent <= 0) {
+            return false;
+        }
+
+        SuspensionDAO suspensionDAO = new SuspensionDAO();
+        if (suspensionDAO.adherentEstSuspendu(idAdherent)) {
+            return false;
+        }
+
+        String sqlLivreIndisponible =
+                "SELECT COUNT(*) FROM livre WHERE id_livre = ? AND nombre_disponible = 0";
+
+        String sqlCheckAdherent =
+                "SELECT COUNT(*) FROM adherent WHERE id_adherent = ?";
+
+        String sqlCheckDoublon =
+                "SELECT COUNT(*) FROM reservation "
+              + "WHERE id_livre = ? AND id_adherent = ? "
+              + "AND statut IN ('en_attente', 'disponible_a_retirer', 'remise')";
+
+        String sqlCheckDemandeActive =
+                "SELECT COUNT(*) FROM demande_emprunt "
+              + "WHERE id_livre = ? AND id_adherent = ? "
+              + "AND statut IN ('en_attente', 'acceptee_a_retirer', 'remise')";
+
+        String sqlInsert =
+                "INSERT INTO reservation (id_livre, id_adherent, date_reservation, statut) "
+              + "VALUES (?, ?, NOW(), 'en_attente')";
+
+        try (Connection connexion = Connexion.getConnection()) {
+
+            try (PreparedStatement psLivre = connexion.prepareStatement(sqlLivreIndisponible)) {
+                psLivre.setInt(1, idLivre);
+                ResultSet rs = psLivre.executeQuery();
+                if (rs.next() && rs.getInt(1) == 0) {
+                    return false;
+                }
+            }
+
+            try (PreparedStatement psCheckAdherent = connexion.prepareStatement(sqlCheckAdherent)) {
+                psCheckAdherent.setInt(1, idAdherent);
+                ResultSet rsAdherent = psCheckAdherent.executeQuery();
+                if (rsAdherent.next() && rsAdherent.getInt(1) == 0) {
+                    return false;
+                }
+            }
+
+            try (PreparedStatement psCheckDoublon = connexion.prepareStatement(sqlCheckDoublon)) {
+                psCheckDoublon.setInt(1, idLivre);
+                psCheckDoublon.setInt(2, idAdherent);
+                ResultSet rsDoublon = psCheckDoublon.executeQuery();
+                if (rsDoublon.next() && rsDoublon.getInt(1) > 0) {
+                    return false;
+                }
+            }
+
+            try (PreparedStatement psCheckDemande = connexion.prepareStatement(sqlCheckDemandeActive)) {
+                psCheckDemande.setInt(1, idLivre);
+                psCheckDemande.setInt(2, idAdherent);
+                ResultSet rsDemande = psCheckDemande.executeQuery();
+                if (rsDemande.next() && rsDemande.getInt(1) > 0) {
+                    return false;
+                }
+            }
+
+            try (PreparedStatement psInsert = connexion.prepareStatement(sqlInsert)) {
+                psInsert.setInt(1, idLivre);
+                psInsert.setInt(2, idAdherent);
+                return psInsert.executeUpdate() > 0;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean notifierProchaineReservation(int idLivre) {
+        String sqlSelect =
+                "SELECT id_reservation, id_adherent "
+              + "FROM reservation "
+              + "WHERE id_livre = ? AND statut = 'en_attente' "
+              + "ORDER BY date_reservation ASC "
+              + "LIMIT 1";
+
+        String sqlMaj =
+                "UPDATE reservation "
+              + "SET statut = 'disponible_a_retirer', "
+              + "    date_notification = NOW(), "
+              + "    date_limite_retrait = DATE_ADD(NOW(), INTERVAL 2 DAY) "
+              + "WHERE id_reservation = ?";
+
+        try (Connection connexion = Connexion.getConnection()) {
+            int idReservation = 0;
+
+            try (PreparedStatement psSelect = connexion.prepareStatement(sqlSelect)) {
+                psSelect.setInt(1, idLivre);
+                ResultSet rs = psSelect.executeQuery();
+
+                if (rs.next()) {
+                    idReservation = rs.getInt("id_reservation");
+                } else {
+                    return false;
+                }
+            }
+
+            try (PreparedStatement psMaj = connexion.prepareStatement(sqlMaj)) {
+                psMaj.setInt(1, idReservation);
+                return psMaj.executeUpdate() > 0;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean expirerReservationsNonRetirees() {
+        String sql =
+                "UPDATE reservation "
+              + "SET statut = 'expiree' "
+              + "WHERE statut = 'disponible_a_retirer' "
+              + "AND date_remise IS NULL "
+              + "AND date_limite_retrait IS NOT NULL "
+              + "AND date_limite_retrait < NOW()";
+
+        try (Connection connexion = Connexion.getConnection()) {
+            try (PreparedStatement ps = connexion.prepareStatement(sql)) {
+                return ps.executeUpdate() >= 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean confirmerRetraitReservation(int idReservation, int idUtilisateur) {
+        String sqlSelect =
+                "SELECT id_livre, id_adherent FROM reservation WHERE id_reservation = ? AND statut = 'disponible_a_retirer'";
+
+        String sqlEmprunt =
+                "INSERT INTO emprunt (id_livre, id_adherent, id_utilisateur, "
+              + "date_emprunt, date_retour_prevue, date_retour_reelle, statut) "
+              + "VALUES (?, ?, ?, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 14 DAY), NULL, 'en cours')";
+
+        String sqlLivre =
+                "UPDATE livre SET nombre_disponible = nombre_disponible - 1 "
+              + "WHERE id_livre = ? AND nombre_disponible > 0";
+
+        String sqlMajReservation =
+                "UPDATE reservation "
+              + "SET id_emprunt = LAST_INSERT_ID(), "
+              + "    date_remise = NOW(), "
+              + "    statut = 'remise' "
+              + "WHERE id_reservation = ?";
+
+        try (Connection connexion = Connexion.getConnection()) {
+            connexion.setAutoCommit(false);
+
+            try {
+                int idLivre = 0;
+                int idAdherent = 0;
+
+                try (PreparedStatement psSelect = connexion.prepareStatement(sqlSelect)) {
+                    psSelect.setInt(1, idReservation);
+                    ResultSet rs = psSelect.executeQuery();
+
+                    if (rs.next()) {
+                        idLivre = rs.getInt("id_livre");
+                        idAdherent = rs.getInt("id_adherent");
+                    } else {
+                        throw new SQLException("Réservation introuvable ou pas encore disponible à retirer.");
+                    }
+                }
+
+                try (PreparedStatement psEmprunt = connexion.prepareStatement(sqlEmprunt)) {
+                    psEmprunt.setInt(1, idLivre);
+                    psEmprunt.setInt(2, idAdherent);
+                    psEmprunt.setInt(3, idUtilisateur);
+
+                    int nb = psEmprunt.executeUpdate();
+                    if (nb == 0) {
+                        throw new SQLException("Échec de création de l’emprunt.");
+                    }
+                }
+
+                try (PreparedStatement psLivre = connexion.prepareStatement(sqlLivre)) {
+                    psLivre.setInt(1, idLivre);
+                    int nb = psLivre.executeUpdate();
+                    if (nb == 0) {
+                        throw new SQLException("Le livre n’est plus disponible.");
+                    }
+                }
+
+                try (PreparedStatement psMaj = connexion.prepareStatement(sqlMajReservation)) {
+                    psMaj.setInt(1, idReservation);
+                    psMaj.executeUpdate();
+                }
+
+                connexion.commit();
+                return true;
+
+            } catch (SQLException e) {
+                connexion.rollback();
+                throw e;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+}

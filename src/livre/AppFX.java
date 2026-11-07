@@ -13,6 +13,10 @@ public class AppFX extends Application {
     public void start(Stage stage) throws Exception {
         System.out.println("[AppFX] Début start(Stage)");
 
+        new DemandeEmpruntDAO().expirerDemandesNonRetirees();
+        new ReservationDAO().expirerReservationsNonRetirees();
+        new NotificationDAO().envoyerNotificationsAutomatiques();
+
         URL fxmlUrl = getClass().getResource("Acceuil.fxml");
         System.out.println("[AppFX] FXML Acceuil : " + fxmlUrl);
         if (fxmlUrl == null) {

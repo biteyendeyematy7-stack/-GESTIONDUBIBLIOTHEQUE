@@ -241,5 +241,19 @@ public class AdherentDAO {
 
 	    return 0;
 	}
+	public int getIdAdherentParUtilisateur(int idUtilisateur) {
+	    String sql = "SELECT id_adherent FROM adherent WHERE id_utilisateur = ?";
+	    try (Connection connexion = Connexion.getConnection();
+	         PreparedStatement ps = connexion.prepareStatement(sql)) {
+	        ps.setInt(1, idUtilisateur);
+	        ResultSet rs = ps.executeQuery();
+	        if (rs.next()) {
+	            return rs.getInt("id_adherent");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return -1;
+	}
 
 }

@@ -2,8 +2,11 @@ package livre;
 
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -32,7 +35,15 @@ public final class CartesLivres {
     private static final double LARGEUR = 176;
     private static final double HAUTEUR_COUVERTURE = 216;
 
+    private static int idAdherentConnecte = -1;
+    private static String roleConnecte = "";
+
     private CartesLivres() {
+    }
+
+    public static void setContext(int idAdherent, String role) {
+        idAdherentConnecte = idAdherent;
+        roleConnecte = role == null ? "" : role;
     }
 
     public static VBox creer(ObservableList<String> ligne) {
@@ -42,6 +53,7 @@ public final class CartesLivres {
         String categorie = texte(ligne, 3, "Divers");
         int exemplaires = entier(ligne, 4);
         int disponibles = entier(ligne, 5);
+        int idLivre = entier(ligne, 0);
 
         // ---------- Couverture ----------
         VBox couverture = creerCouverture(titre, auteur, categorie);
@@ -57,8 +69,17 @@ public final class CartesLivres {
             badge.getStyleClass().addAll("badge-livre", "badge-indispo");
         }
 
+        // ---------- Actions ----------
+        Button btnAction = new Button(disponibles > 0 ? "Demander un emprunt" : "Réserver");
+        btnAction.setMaxWidth(Double.MAX_VALUE);
+        btnAction.setOnAction(e -> traiterAction(idLivre, disponibles));
+
+        HBox zoneActions = new HBox(btnAction);
+        zoneActions.setAlignment(Pos.CENTER);
+        HBox.setHgrow(btnAction, Priority.ALWAYS);
+
         // ---------- Carte complète ----------
-        VBox carte = new VBox(10, couverture, badge);
+        VBox carte = new VBox(10, couverture, badge, zoneActions);
         carte.setAlignment(Pos.TOP_CENTER);
         carte.getStyleClass().add("livre-carte");
         carte.setMinWidth(LARGEUR);
@@ -75,6 +96,36 @@ public final class CartesLivres {
         Tooltip.install(carte, new Tooltip(detail));
 
         return carte;
+    }
+
+    private static void traiterAction(int idLivre, int disponibles) {
+        if (idAdherentConnecte <= 0) {
+            afficherMessage("Aucun adhérent connecté. Veuillez vous reconnecter.");
+            return;
+        }
+
+        if ("adherent".equalsIgnoreCase(roleConnecte)) {
+            if (disponibles > 0) {
+                DemandeEmpruntController controleur = new DemandeEmpruntController();
+                String message = controleur.demanderLivre(idLivre, idAdherentConnecte);
+                afficherMessage(message);
+            } else {
+                ReservationController controleur = new ReservationController();
+                String message = controleur.reserverLivre(idLivre, idAdherentConnecte);
+                afficherMessage(message);
+            }
+            return;
+        }
+
+        afficherMessage("Cette action est réservée à l’adhérent connecté.");
+    }
+
+    private static void afficherMessage(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Action du catalogue");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     /**

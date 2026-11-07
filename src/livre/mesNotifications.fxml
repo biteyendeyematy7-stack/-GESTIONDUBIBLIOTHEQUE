@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="620.0" prefWidth="900.0"
+            styleClass="management-root"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="livre.MesNotificationsController">
+
+    <stylesheets>
+        <URL value="@style.css"/>
+        <URL value="@styleAdherent.css"/>
+    </stylesheets>
+
+    <children>
+        <BorderPane AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <top>
+                <HBox alignment="CENTER_LEFT" spacing="14" styleClass="management-header">
+                    <Label text="🔔" styleClass="action-icon"/>
+                    <VBox spacing="3">
+                        <Label text="MES NOTIFICATIONS" styleClass="management-title"/>
+                        <Label text="Consultez vos rappels et retards." styleClass="management-subtitle"/>
+                    </VBox>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button text="← Tableau de bord" onAction="#retourAuTableauDeBord" styleClass="back-button"/>
+                </HBox>
+            </top>
+
+            <center>
+                <VBox spacing="14" styleClass="loan-content">
+                    <Label fx:id="lblMessage" text="Chargement..." styleClass="loan-summary"/>
+                    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" VBox.vgrow="ALWAYS" styleClass="page-scroll,loan-scroll">
+                        <content>
+                            <VBox fx:id="conteneurNotifications" spacing="12" fillWidth="true"/>
+                        </content>
+                    </ScrollPane>
+                </VBox>
+            </center>
+        </BorderPane>
+    </children>
+</AnchorPane>

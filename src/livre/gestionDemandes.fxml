@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="livre.GestionDemandesController"
+      prefWidth="1000.0"
+      prefHeight="650.0"
+      spacing="18"
+      styleClass="management-root"
+      stylesheets="@style.css">
+
+    <HBox alignment="CENTER_LEFT" spacing="14" styleClass="management-header">
+        <Label text="📄" styleClass="suivi-header-icon"/>
+        <VBox spacing="3">
+            <Label text="Demandes d’emprunt" styleClass="management-title"/>
+            <Label text="Acceptez ou refusez les demandes en attente." styleClass="management-subtitle"/>
+        </VBox>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="← Tableau de bord" onAction="#retourAuTableauDeBord" styleClass="back-button"/>
+    </HBox>
+
+    <VBox spacing="12" styleClass="management-content" VBox.vgrow="ALWAYS">
+        <Label fx:id="lblMessage" wrapText="true" styleClass="status-message"/>
+
+        <TableView fx:id="tableDemandes" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn text="N°" prefWidth="60"/>
+                <TableColumn text="Livre" prefWidth="260"/>
+                <TableColumn text="Adhérent" prefWidth="220"/>
+                <TableColumn text="Date demande" prefWidth="150"/>
+                <TableColumn text="Statut" prefWidth="120"/>
+                <TableColumn text="Actions" prefWidth="180"/>
+            </columns>
+        </TableView>
+    </VBox>
+</VBox>

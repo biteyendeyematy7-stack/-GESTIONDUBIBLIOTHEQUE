@@ -58,6 +58,12 @@
                                 <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#monProfil" styleClass="action-card" text="Mon profil">
                                     <graphic><Label text="👤" styleClass="action-icon"/></graphic>
                                 </Button>
+                                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#mesDemandesReservations" styleClass="action-card" text="Mes demandes et réservations">
+                                    <graphic><Label text="📋" styleClass="action-icon"/></graphic>
+                                </Button>
+                                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#mesNotifications" styleClass="action-card" text="Voir mes notifications">
+                                    <graphic><Label text="🔔" styleClass="action-icon"/></graphic>
+                                </Button>
                             </VBox>
                         </VBox>
                     </content>

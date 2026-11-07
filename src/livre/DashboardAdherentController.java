@@ -44,14 +44,13 @@ public class DashboardAdherentController {
                             650
                     );
 
+            CatalogueLivresController controller = loader.getController();
+            controller.setUtilisateur(idUtilisateur, role);
+
             Stage stage = new Stage();
-
             stage.setTitle("Catalogue des livres");
-
             stage.setScene(scene);
-
             stage.setResizable(true);
-
             afficherEcranAvecRetour(stage);
 
         } catch (Exception e) {
@@ -180,6 +179,54 @@ public class DashboardAdherentController {
 
         } catch (Exception e) {
 
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void mesDemandesReservations() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("mesDemandesReservations.fxml")
+            );
+
+            Scene scene = new Scene(loader.load(), 1000, 650);
+
+            MesDemandesReservationsController controller =
+                    loader.getController();
+            controller.setIdUtilisateur(idUtilisateur);
+
+            Stage stage = new Stage();
+            stage.setTitle("Mes demandes et réservations");
+            stage.setScene(scene);
+            stage.setResizable(true);
+            afficherEcranAvecRetour(stage);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void mesNotifications() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("mesNotifications.fxml")
+            );
+
+            Scene scene = new Scene(loader.load(), 900, 620);
+
+            MesNotificationsController controller =
+                    loader.getController();
+            controller.setIdUtilisateur(idUtilisateur);
+
+            Stage stage = new Stage();
+            stage.setTitle("Mes notifications");
+            stage.setScene(scene);
+            stage.setResizable(true);
+            afficherEcranAvecRetour(stage);
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

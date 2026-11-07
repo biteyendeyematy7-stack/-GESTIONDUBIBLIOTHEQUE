@@ -98,6 +98,52 @@ public class DashboardBibliothecaireController {
         }
     }
 
+    @FXML
+    private void ouvrirDemandes() {
+
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("gestionDemandes.fxml"));
+
+            Scene scene = new Scene(loader.load(), 1000, 650);
+
+            GestionDemandesController controller = loader.getController();
+            controller.setUtilisateur(idUtilisateur, role);
+
+            Stage stage = new Stage();
+            stage.setTitle("Demandes d’emprunt");
+            stage.setScene(scene);
+            stage.setResizable(true);
+            afficherEcranAvecRetour(stage);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void ouvrirReservations() {
+
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("gestionReservations.fxml"));
+
+            Scene scene = new Scene(loader.load(), 1000, 650);
+
+            GestionReservationsController controller = loader.getController();
+            controller.setUtilisateur(idUtilisateur, role);
+
+            Stage stage = new Stage();
+            stage.setTitle("Réservations");
+            stage.setScene(scene);
+            stage.setResizable(true);
+            afficherEcranAvecRetour(stage);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void afficherEcranAvecRetour(Stage fenetre) {
         Stage tableauDeBord =
                 (Stage) lblBienvenue.getScene().getWindow();

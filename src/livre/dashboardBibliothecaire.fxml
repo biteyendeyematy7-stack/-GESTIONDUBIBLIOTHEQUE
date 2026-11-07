@@ -56,6 +56,12 @@
         text="Gestion des retours">
                             <graphic><Label text="📥" styleClass="action-icon"/></graphic>
                         </Button>
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ouvrirDemandes" styleClass="action-card" text="Demandes d’emprunt">
+                            <graphic><Label text="📄" styleClass="action-icon"/></graphic>
+                        </Button>
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ouvrirReservations" styleClass="action-card" text="Réservations">
+                            <graphic><Label text="📚" styleClass="action-icon"/></graphic>
+                        </Button>
                     </VBox>
                 </VBox>
                     </content>

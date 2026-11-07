@@ -33,6 +33,9 @@ public class CatalogueLivresController {
     private final ObservableList<ObservableList<String>> toutesLesLignes =
             FXCollections.observableArrayList();
 
+    private int idUtilisateurConnecte = -1;
+    private String roleConnecte = "";
+
     @FXML
     public void initialize() {
 
@@ -141,5 +144,38 @@ public class CatalogueLivresController {
                         .getWindow();
 
         fenetreActuelle.close();
+    }
+
+    public void setUtilisateur(int idUtilisateur, String role) {
+        this.idUtilisateurConnecte = idUtilisateur;
+        this.roleConnecte = role == null ? "" : role;
+        int idAdherentContext = determinerIdAdherentContext(idUtilisateur, roleConnecte);
+        CartesLivres.setContext(idAdherentContext, roleConnecte);
+    }
+
+    private int determinerIdAdherentContext(int idUtilisateur, String role) {
+        if (idUtilisateur <= 0 || !"adherent".equalsIgnoreCase(role)) {
+            return idUtilisateur;
+        }
+
+        AdherentDAO adherentDAO = new AdherentDAO();
+        int idAdherent = adherentDAO.getIdAdherentParUtilisateur(idUtilisateur);
+        return idAdherent > 0 ? idAdherent : idUtilisateur;
+    }
+
+    public void setAdherentConnecte(int idAdherent) {
+        this.idUtilisateurConnecte = idAdherent;
+        CartesLivres.setContext(idAdherent, roleConnecte);
+    }
+
+    public void setRole(String role) {
+        this.roleConnecte = role == null ? "" : role;
+        CartesLivres.setContext(idUtilisateurConnecte, roleConnecte);
+    }
+
+    private void initialiserContexteAdherent() {
+        if (idUtilisateurConnecte > 0) {
+            CartesLivres.setContext(idUtilisateurConnecte, roleConnecte);
+        }
     }
 }
