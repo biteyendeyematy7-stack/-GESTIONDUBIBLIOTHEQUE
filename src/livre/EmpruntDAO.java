@@ -1,10 +1,12 @@
 package livre;
 import java.sql.Connection;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class EmpruntDAO {
 	public boolean ajouterEmprunt(
@@ -493,6 +495,72 @@ public class EmpruntDAO {
         }
 
         return false;
+    }
+    public long calculerRetardJours(int idEmprunt) {
+        String sql =
+                "SELECT date_retour_prevue, date_retour_reelle "
+              + "FROM emprunt "
+              + "WHERE id_emprunt = ?";
+
+        try (Connection connexion = Connexion.getConnection();
+             PreparedStatement ps = connexion.prepareStatement(sql)) {
+
+            ps.setInt(1, idEmprunt);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    String prevu = rs.getString("date_retour_prevue");
+                    String reel = rs.getString("date_retour_reelle");
+                    if (reel == null || prevu == null || reel.trim().isEmpty()) {
+                        return 0;
+                    }
+                    LocalDate datePrevue = LocalDate.parse(prevu.substring(0, Math.min(10, prevu.length())));
+                    LocalDate dateReelle = LocalDate.parse(reel.substring(0, Math.min(10, reel.length())));
+                    return Math.max(0, ChronoUnit.DAYS.between(datePrevue, dateReelle));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public boolean aUnRetourEnRetard(int idEmprunt) {
+        return calculerRetardJours(idEmprunt) > 0;
+    }
+    public int getIdAdherentParEmprunt(int idEmprunt) {
+        String sql =
+                "SELECT id_adherent FROM emprunt WHERE id_emprunt = ?";
+
+        try (Connection connexion = Connexion.getConnection();
+             PreparedStatement ps = connexion.prepareStatement(sql)) {
+            ps.setInt(1, idEmprunt);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("id_adherent");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    public String getDateRetourPrevueParEmprunt(int idEmprunt) {
+        String sql =
+                "SELECT date_retour_prevue FROM emprunt WHERE id_emprunt = ?";
+
+        try (Connection connexion = Connexion.getConnection();
+             PreparedStatement ps = connexion.prepareStatement(sql)) {
+            ps.setInt(1, idEmprunt);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("date_retour_prevue");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

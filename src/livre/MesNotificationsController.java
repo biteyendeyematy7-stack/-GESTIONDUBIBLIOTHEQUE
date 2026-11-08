@@ -52,13 +52,12 @@ public class MesNotificationsController {
             try (ResultSet rs = ps.executeQuery()) {
                 int count = 0;
                 while (rs.next()) {
+                    String type = rs.getString("type_notification");
+                    String message = rs.getString("message");
+                    String date = rs.getString("date_envoi");
+                    int lu = rs.getInt("lu");
                     count++;
-                    conteneurNotifications.getChildren().add(creerCarte(
-                            rs.getString("type_notification"),
-                            rs.getString("message"),
-                            rs.getString("date_envoi"),
-                            rs.getInt("lu")
-                    ));
+                    conteneurNotifications.getChildren().add(creerCarte(type, message, date, lu));
                 }
 
                 if (count == 0) {

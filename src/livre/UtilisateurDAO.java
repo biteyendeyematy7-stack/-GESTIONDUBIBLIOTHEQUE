@@ -216,4 +216,36 @@ public class UtilisateurDAO {
             return false;
         }
     }
+
+    // =========================================================
+    // Vérifier le mot de passe temporaire lors de la première connexion
+    // =========================================================
+
+    public static boolean verifierMotDePasseTemporaire(
+            String login,
+            String motDePasse) {
+
+        String sql =
+                "SELECT id_utilisateur "
+              + "FROM utilisateur "
+              + "WHERE login = ? "
+              + "AND mot_de_passe = ? "
+              + "AND role = 'adherent' "
+              + "AND premiere_connexion = 1";
+
+        try (Connection connexion = Connexion.getConnection();
+             PreparedStatement ps = connexion.prepareStatement(sql)) {
+
+            ps.setString(1, login);
+            ps.setString(2, motDePasse);
+
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
 }

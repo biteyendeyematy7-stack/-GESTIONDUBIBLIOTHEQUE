@@ -9,6 +9,10 @@ public class SuspensionController {
             return "Informations de suspension incomplètes.";
         }
 
+        if (!suspensionDAO.estRoleAutorise(idUtilisateur)) {
+            return "Seuls l’administrateur et le bibliothécaire peuvent modifier une suspension.";
+        }
+
         boolean ok = suspensionDAO.ajouterSuspension(idAdherent, idUtilisateur, motif, dateDebut, dateFin);
         if (!ok) {
             return "Erreur lors de la suspension.";
@@ -21,16 +25,24 @@ public class SuspensionController {
         return suspensionDAO.adherentEstSuspendu(idAdherent);
     }
 
-    public String leverSuspension(int idAdherent) {
-        if (idAdherent <= 0) {
+    public String leverSuspension(int idAdherent, int idUtilisateur) {
+        if (idAdherent <= 0 || idUtilisateur <= 0) {
             return "Adhérent invalide.";
         }
 
-        boolean ok = suspensionDAO.leverSuspension(idAdherent);
+        if (!suspensionDAO.estRoleAutorise(idUtilisateur)) {
+            return "Seuls l’administrateur et le bibliothécaire peuvent modifier une suspension.";
+        }
+
+        boolean ok = suspensionDAO.leverSuspension(idAdherent, idUtilisateur);
         if (!ok) {
             return "Aucune suspension active à lever.";
         }
 
         return "Suspension levée.";
+    }
+
+    public String leverSuspension(int idAdherent) {
+        return leverSuspension(idAdherent, 1);
     }
 }

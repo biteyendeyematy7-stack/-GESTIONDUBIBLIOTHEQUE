@@ -15,6 +15,10 @@ public class DemandeEmpruntController {
             return "L’adhérent est suspendu. Demande refusée.";
         }
 
+        if (!demandeEmpruntDAO.peutFaireNouvelEmprunt(idAdherent)) {
+            return "Refus : vous avez déjà 2 emprunts en cours. Vous ne pouvez faire un nouveau prêt qu’après avoir rendu au moins l’un de vos emprunts actuels.";
+        }
+
         if (demandeEmpruntDAO.aUnEmpruntEnCours(idLivre, idAdherent)) {
             return "Refus : vous avez déjà ce livre en cours d’emprunt et il n’a pas encore été rendu. Veuillez d’abord retourner le livre avant de faire une nouvelle demande.";
         }
@@ -83,5 +87,28 @@ public class DemandeEmpruntController {
         }
 
         return "Remise confirmée. L’emprunt réel a été créé.";
+    }
+
+    public String annulerDemande(int idDemande, int idAdherent) {
+        if (idDemande <= 0 || idAdherent <= 0) {
+            return "Paramètres invalides.";
+        }
+
+        if (!demandeEmpruntDAO.demandePeutEtreAnnulee(idDemande, idAdherent)) {
+            return "Cette demande ne peut plus être annulée.";
+        }
+
+        boolean ok = demandeEmpruntDAO.annulerDemande(idDemande, idAdherent);
+        if (!ok) {
+            return "Impossible d’annuler cette demande.";
+        }
+
+        notificationDAO.ajouterNotification(
+                idAdherent,
+                "annulation_demande",
+                "Votre demande d’emprunt a bien été annulée."
+        );
+
+        return "Demande annulée avec succès.";
     }
 }

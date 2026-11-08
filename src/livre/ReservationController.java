@@ -49,4 +49,40 @@ public class ReservationController {
 
         return "Remise confirmée pour cette réservation.";
     }
+
+    public String annulerReservation(int idReservation, int idAdherent) {
+        if (idReservation <= 0 || idAdherent <= 0) {
+            return "Paramètres invalides.";
+        }
+
+        if (!reservationDAO.reservationPeutEtreAnnulee(idReservation, idAdherent)) {
+            return "Cette réservation ne peut plus être annulée.";
+        }
+
+        boolean ok = reservationDAO.annulerReservation(idReservation, idAdherent);
+        if (!ok) {
+            return "Impossible d’annuler cette réservation.";
+        }
+
+        notificationDAO.ajouterNotification(
+                idAdherent,
+                "annulation_reservation",
+                "Votre réservation a bien été annulée."
+        );
+
+        return "Réservation annulée avec succès.";
+    }
+
+    public String annulerReservationBibliothecaire(int idReservation) {
+        if (idReservation <= 0) {
+            return "Réservation invalide.";
+        }
+
+        boolean ok = reservationDAO.annulerReservationBibliothecaire(idReservation);
+        if (!ok) {
+            return "Impossible d’annuler cette réservation.";
+        }
+
+        return "Réservation annulée. La file d’attente a été mise à jour.";
+    }
 }

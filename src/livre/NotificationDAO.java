@@ -12,18 +12,35 @@ public class NotificationDAO {
             return false;
         }
 
-        String sql =
-                "INSERT INTO notification (id_adherent, type_notification, message, date_envoi, lu) "
-              + "VALUES (?, ?, ?, NOW(), 0)";
+        String sqlExiste =
+                "SELECT COUNT(*) FROM notification "
+              + "WHERE id_adherent = ? "
+              + "AND type_notification = ? "
+              + "AND message = ? "
+              + "AND DATE(date_envoi) = CURDATE()";
 
-        try (Connection connexion = Connexion.getConnection();
-             PreparedStatement ps = connexion.prepareStatement(sql)) {
+        try (Connection connexion = Connexion.getConnection()) {
+            try (PreparedStatement psExiste = connexion.prepareStatement(sqlExiste)) {
+                psExiste.setInt(1, idAdherent);
+                psExiste.setString(2, typeNotification);
+                psExiste.setString(3, message);
+                try (ResultSet rs = psExiste.executeQuery()) {
+                    if (rs.next() && rs.getInt(1) > 0) {
+                        return true;
+                    }
+                }
+            }
 
-            ps.setInt(1, idAdherent);
-            ps.setString(2, typeNotification);
-            ps.setString(3, message);
+            String sql =
+                    "INSERT INTO notification (id_adherent, type_notification, message, date_envoi, lu) "
+                  + "VALUES (?, ?, ?, NOW(), 0)";
 
-            return ps.executeUpdate() > 0;
+            try (PreparedStatement ps = connexion.prepareStatement(sql)) {
+                ps.setInt(1, idAdherent);
+                ps.setString(2, typeNotification);
+                ps.setString(3, message);
+                return ps.executeUpdate() > 0;
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -84,6 +101,7 @@ public class NotificationDAO {
     public boolean envoyerNotificationsAutomatiques() {
         boolean rappels = envoyerRappelsAvantRetour(2);
         boolean retards = notifierRetards();
+        new SuspensionDAO().appliquerSuspensionsAutomatiquesPourRetards();
         return rappels || retards;
     }
 

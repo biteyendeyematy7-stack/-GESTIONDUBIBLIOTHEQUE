@@ -220,4 +220,114 @@ public class ReservationDAO {
             return false;
         }
     }
+
+    public boolean annulerReservation(int idReservation, int idAdherent) {
+        if (idReservation <= 0 || idAdherent <= 0) {
+            return false;
+        }
+
+        String sql =
+                "DELETE FROM reservation "
+              + "WHERE id_reservation = ? "
+              + "AND id_adherent = ? "
+              + "AND statut IN ('en_attente', 'disponible_a_retirer')";
+
+        try (Connection connexion = Connexion.getConnection();
+             PreparedStatement ps = connexion.prepareStatement(sql)) {
+            ps.setInt(1, idReservation);
+            ps.setInt(2, idAdherent);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean reservationPeutEtreAnnulee(int idReservation, int idAdherent) {
+        if (idReservation <= 0 || idAdherent <= 0) {
+            return false;
+        }
+
+        String sql =
+                "SELECT COUNT(*) FROM reservation "
+              + "WHERE id_reservation = ? "
+              + "AND id_adherent = ? "
+              + "AND statut IN ('en_attente', 'disponible_a_retirer')";
+
+        try (Connection connexion = Connexion.getConnection();
+             PreparedStatement ps = connexion.prepareStatement(sql)) {
+            ps.setInt(1, idReservation);
+            ps.setInt(2, idAdherent);
+            ResultSet rs = ps.executeQuery();
+            return rs.next() && rs.getInt(1) > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean annulerReservationBibliothecaire(int idReservation) {
+        if (idReservation <= 0) {
+            return false;
+        }
+
+        String sqlSelect =
+                "SELECT id_livre FROM reservation "
+              + "WHERE id_reservation = ? "
+              + "AND statut IN ('en_attente', 'disponible_a_retirer')";
+
+        String sqlDelete =
+                "DELETE FROM reservation "
+              + "WHERE id_reservation = ? "
+              + "AND statut IN ('en_attente', 'disponible_a_retirer')";
+
+        try (Connection connexion = Connexion.getConnection()) {
+            connexion.setAutoCommit(false);
+
+            try {
+                int idLivre = -1;
+
+                try (PreparedStatement psSelect = connexion.prepareStatement(sqlSelect)) {
+                    psSelect.setInt(1, idReservation);
+                    ResultSet rs = psSelect.executeQuery();
+
+                    if (!rs.next()) {
+                        throw new SQLException("Réservation introuvable ou non annulable.");
+                    }
+                    idLivre = rs.getInt("id_livre");
+                }
+
+                try (PreparedStatement psDelete = connexion.prepareStatement(sqlDelete)) {
+                    psDelete.setInt(1, idReservation);
+                    int rows = psDelete.executeUpdate();
+                    if (rows == 0) {
+                        throw new SQLException("Impossible d’annuler cette réservation.");
+                    }
+                }
+
+                String sqlWaiting =
+                        "SELECT COUNT(*) FROM reservation "
+                      + "WHERE id_livre = ? AND statut = 'en_attente'";
+
+                try (PreparedStatement psWaiting = connexion.prepareStatement(sqlWaiting)) {
+                    psWaiting.setInt(1, idLivre);
+                    ResultSet rsWaiting = psWaiting.executeQuery();
+                    if (rsWaiting.next() && rsWaiting.getInt(1) > 0) {
+                        notifierProchaineReservation(idLivre);
+                    }
+                }
+
+                connexion.commit();
+                return true;
+
+            } catch (SQLException e) {
+                connexion.rollback();
+                throw e;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

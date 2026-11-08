@@ -63,7 +63,7 @@ public class MesDemandesReservationsController {
         }
 
         String sqlDemandes =
-                "SELECT d.id_demande, 'Demande d’emprunt' AS type, l.titre, l.auteur, l.categorie, d.date_demande AS date_item, "
+                "SELECT d.id_demande AS id_item, 'Demande d’emprunt' AS type, l.titre, l.auteur, l.categorie, d.date_demande AS date_item, "
               + "CASE d.statut "
               + "WHEN 'en_attente' THEN 'En attente' "
               + "WHEN 'acceptee_a_retirer' THEN 'Acceptée — à retirer' "
@@ -76,7 +76,7 @@ public class MesDemandesReservationsController {
               + "ORDER BY d.date_demande DESC";
 
         String sqlReservations =
-                "SELECT r.id_reservation, 'Réservation' AS type, l.titre, l.auteur, l.categorie, r.date_reservation AS date_item, "
+                "SELECT r.id_reservation AS id_item, 'Réservation' AS type, l.titre, l.auteur, l.categorie, r.date_reservation AS date_item, "
               + "CASE r.statut "
               + "WHEN 'en_attente' THEN 'En attente' "
               + "WHEN 'disponible_a_retirer' THEN 'Disponible — à retirer' "
@@ -104,7 +104,8 @@ public class MesDemandesReservationsController {
                                 rs.getString("auteur"),
                                 rs.getString("categorie"),
                                 rs.getString("date_item"),
-                                rs.getString("statut")
+                                rs.getString("statut"),
+                                rs.getInt("id_item")
                         ));
                     }
                 }
@@ -120,7 +121,8 @@ public class MesDemandesReservationsController {
                                 rs.getString("auteur"),
                                 rs.getString("categorie"),
                                 rs.getString("date_item"),
-                                rs.getString("statut")
+                                rs.getString("statut"),
+                                rs.getInt("id_item")
                         ));
                     }
                 }
@@ -220,6 +222,16 @@ public class MesDemandesReservationsController {
         return "Aucun élément à afficher.";
     }
 
+    private boolean estDemandeAnnulable(String statut) {
+        return "En attente".equals(statut)
+                || "Acceptée — à retirer".equals(statut);
+    }
+
+    private boolean estReservationAnnulable(String statut) {
+        return "En attente".equals(statut)
+                || "Disponible — à retirer".equals(statut);
+    }
+
     private HBox creerCarte(PendingItem item) {
         HBox carte = new HBox(20);
         carte.setAlignment(Pos.CENTER_LEFT);
@@ -246,6 +258,23 @@ public class MesDemandesReservationsController {
         date.getStyleClass().add("loan-id");
 
         details.getChildren().addAll(header, date);
+
+        if ("Demande d’emprunt".equals(item.type) && estDemandeAnnulable(item.statut)) {
+            Button btnAnnuler = new Button("Annuler");
+            btnAnnuler.setOnAction(this::annulerDemande);
+            btnAnnuler.setUserData(item.idItem);
+            btnAnnuler.getStyleClass().add("back-button");
+            details.getChildren().add(btnAnnuler);
+        }
+
+        if ("Réservation".equals(item.type) && estReservationAnnulable(item.statut)) {
+            Button btnAnnuler = new Button("Annuler");
+            btnAnnuler.setOnAction(this::annulerReservation);
+            btnAnnuler.setUserData(item.idItem);
+            btnAnnuler.getStyleClass().add("back-button");
+            details.getChildren().add(btnAnnuler);
+        }
+
         carte.getChildren().addAll(couverture, details);
         return carte;
     }
@@ -270,6 +299,52 @@ public class MesDemandesReservationsController {
         fenetreActuelle.close();
     }
 
+    @FXML
+    private void annulerDemande(ActionEvent event) {
+        Object source = event.getSource();
+        if (!(source instanceof Button bouton)) {
+            return;
+        }
+
+        String dataValue = bouton.getUserData() == null ? null : bouton.getUserData().toString();
+        if (dataValue == null || dataValue.isBlank()) {
+            lblMessage.setText("Aucune demande sélectionnée pour l’annulation.");
+            return;
+        }
+
+        try {
+            int idDemande = Integer.parseInt(dataValue);
+            String message = new DemandeEmpruntController().annulerDemande(idDemande, idAdherentConnecte);
+            lblMessage.setText(message);
+            chargerElements();
+        } catch (NumberFormatException e) {
+            lblMessage.setText("Demande invalide.");
+        }
+    }
+
+    @FXML
+    private void annulerReservation(ActionEvent event) {
+        Object source = event.getSource();
+        if (!(source instanceof Button bouton)) {
+            return;
+        }
+
+        Object data = bouton.getUserData();
+        if (data == null) {
+            lblMessage.setText("Aucune réservation sélectionnée pour l’annulation.");
+            return;
+        }
+
+        try {
+            int idReservation = Integer.parseInt(data.toString());
+            String message = new ReservationController().annulerReservation(idReservation, idAdherentConnecte);
+            lblMessage.setText(message);
+            chargerElements();
+        } catch (NumberFormatException e) {
+            lblMessage.setText("Réservation invalide.");
+        }
+    }
+
     private static final class PendingItem {
         private final String type;
         private final String titre;
@@ -277,14 +352,16 @@ public class MesDemandesReservationsController {
         private final String categorie;
         private final String date;
         private final String statut;
+        private final int idItem;
 
-        private PendingItem(String type, String titre, String auteur, String categorie, String date, String statut) {
+        private PendingItem(String type, String titre, String auteur, String categorie, String date, String statut, int idItem) {
             this.type = type;
             this.titre = titre;
             this.auteur = auteur;
             this.categorie = categorie;
             this.date = date;
             this.statut = statut;
+            this.idItem = idItem;
         }
     }
 }

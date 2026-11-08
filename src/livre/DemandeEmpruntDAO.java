@@ -61,7 +61,19 @@ public class DemandeEmpruntDAO {
                 "INSERT INTO demande_emprunt (id_livre, id_adherent, date_demande, statut) "
               + "VALUES (?, ?, NOW(), 'en_attente')";
 
+        String sqlEmpruntsActifs =
+                "SELECT COUNT(DISTINCT id_livre) FROM emprunt "
+              + "WHERE id_adherent = ? AND date_retour_reelle IS NULL";
+
         try (Connection connexion = Connexion.getConnection()) {
+
+            try (PreparedStatement psEmpruntsActifs = connexion.prepareStatement(sqlEmpruntsActifs)) {
+                psEmpruntsActifs.setInt(1, idAdherent);
+                ResultSet rs = psEmpruntsActifs.executeQuery();
+                if (rs.next() && rs.getInt(1) >= 2) {
+                    return false;
+                }
+            }
 
             try (PreparedStatement psEmpruntActif = connexion.prepareStatement(sqlEmpruntActif)) {
                 psEmpruntActif.setInt(1, idLivre);
@@ -358,6 +370,78 @@ public class DemandeEmpruntDAO {
                 connexion.rollback();
                 throw e;
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public int compterEmpruntsActifsAdherent(int idAdherent) {
+        if (idAdherent <= 0) {
+            return 0;
+        }
+
+        String sql =
+                "SELECT COUNT(DISTINCT id_livre) "
+              + "FROM emprunt "
+              + "WHERE id_adherent = ? AND date_retour_reelle IS NULL";
+
+        try (Connection connexion = Connexion.getConnection();
+             PreparedStatement ps = connexion.prepareStatement(sql)) {
+            ps.setInt(1, idAdherent);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public boolean peutFaireNouvelEmprunt(int idAdherent) {
+        return compterEmpruntsActifsAdherent(idAdherent) < 2;
+    }
+
+    public boolean annulerDemande(int idDemande, int idAdherent) {
+        if (idDemande <= 0 || idAdherent <= 0) {
+            return false;
+        }
+
+        String sql =
+                "UPDATE demande_emprunt "
+              + "SET statut = 'annulee' "
+              + "WHERE id_demande = ? "
+              + "AND id_adherent = ? "
+              + "AND statut IN ('en_attente', 'acceptee_a_retirer')";
+
+        try (Connection connexion = Connexion.getConnection();
+             PreparedStatement ps = connexion.prepareStatement(sql)) {
+            ps.setInt(1, idDemande);
+            ps.setInt(2, idAdherent);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean demandePeutEtreAnnulee(int idDemande, int idAdherent) {
+        if (idDemande <= 0 || idAdherent <= 0) {
+            return false;
+        }
+
+        String sql =
+                "SELECT COUNT(*) FROM demande_emprunt "
+              + "WHERE id_demande = ? AND id_adherent = ? "
+              + "AND statut IN ('en_attente', 'acceptee_a_retirer')";
+
+        try (Connection connexion = Connexion.getConnection();
+             PreparedStatement ps = connexion.prepareStatement(sql)) {
+            ps.setInt(1, idDemande);
+            ps.setInt(2, idAdherent);
+            ResultSet rs = ps.executeQuery();
+            return rs.next() && rs.getInt(1) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;

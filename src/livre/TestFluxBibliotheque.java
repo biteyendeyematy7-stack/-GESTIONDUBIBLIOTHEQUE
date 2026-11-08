@@ -22,6 +22,10 @@ public class TestFluxBibliotheque {
         System.out.println("4) Notification de test");
         System.out.println(notificationCtrl.envoyerNotification(3, "test", "Notification de test envoyée."));
 
+        System.out.println("5) Vérification du cycle retour / retard");
+        EmpruntDAO empruntDAO = new EmpruntDAO();
+        System.out.println("Retard pour emprunt 1 : " + empruntDAO.calculerRetardJours(1) + " jour(s)");
+
         System.out.println("=== Fin du test ===");
     }
 }

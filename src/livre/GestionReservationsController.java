@@ -65,7 +65,11 @@ public class GestionReservationsController {
                 btnValider.setStyle("-fx-background-color: #2E7D32; -fx-text-fill: white;");
                 btnValider.setOnAction(e -> validerRemiseReservation(idReservation));
 
-                HBox box = new HBox(8, btnNotifier, btnValider);
+                Button btnAnnuler = new Button("Annuler");
+                btnAnnuler.setStyle("-fx-background-color: #C62828; -fx-text-fill: white;");
+                btnAnnuler.setOnAction(e -> annulerReservationBibliothecaire(idReservation));
+
+                HBox box = new HBox(8, btnNotifier, btnValider, btnAnnuler);
                 box.setAlignment(Pos.CENTER);
                 setGraphic(box);
             }
@@ -168,6 +172,30 @@ public class GestionReservationsController {
         afficherMessage(message, message.contains("Impossible") ? "erreur" : "ok");
         if (!message.contains("Impossible")) {
             chargerReservations();
+        }
+    }
+
+    private void annulerReservationBibliothecaire(int idReservation) {
+        if (idReservation <= 0) {
+            afficherMessage("Réservation invalide.", "erreur");
+            return;
+        }
+
+        String sql = "UPDATE reservation SET statut = 'annulee' WHERE id_reservation = ?";
+        try (Connection connexion = Connexion.getConnection();
+             PreparedStatement ps = connexion.prepareStatement(sql)) {
+            ps.setInt(1, idReservation);
+            int rowsUpdated = ps.executeUpdate();
+            if (rowsUpdated > 0) {
+                afficherMessage("Réservation annulée avec succès.", "ok");
+                chargerReservations();
+            } else {
+                afficherMessage("Échec de l'annulation de la réservation.", "erreur");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            afficherMessage("Erreur lors de l'annulation de la réservation.", "erreur");
         }
     }
 

@@ -137,8 +137,15 @@ public class LoginController {
                 && UtilisateurDAO.estPremiereConnexion(
                         utilisateur.getIdUtilisateur())) {
 
-            ouvrirPremiereConnexion(utilisateur);
+            if (!UtilisateurDAO.verifierMotDePasseTemporaire(login, motDePasse)) {
+                lblMessage.setText(
+                        "Mot de passe temporaire incorrect."
+                );
+                lblMessage.setStyle("-fx-text-fill: #9B2C2C; -fx-font-weight: bold;");
+                return;
+            }
 
+            ouvrirPremiereConnexion(utilisateur);
             return;
         }
 
