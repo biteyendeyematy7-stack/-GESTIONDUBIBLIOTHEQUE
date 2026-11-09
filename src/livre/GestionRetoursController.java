@@ -346,6 +346,37 @@ public class GestionRetoursController {
         }
     }
 
+    private void envoyerNotificationRetardSiNecessaire(int idEmprunt, String dateRetour) {
+        if (idEmprunt <= 0 || dateRetour == null || dateRetour.isBlank()) {
+            return;
+        }
+
+        int idAdherent = empruntDAO.getIdAdherentParEmprunt(idEmprunt);
+        if (idAdherent <= 0) {
+            return;
+        }
+
+        String datePrevue = empruntDAO.getDateRetourPrevueParEmprunt(idEmprunt);
+        if (datePrevue == null || datePrevue.isBlank()) {
+            return;
+        }
+
+        try {
+            LocalDate prevu = LocalDate.parse(datePrevue.substring(0, 10));
+            LocalDate reel = LocalDate.parse(dateRetour.substring(0, 10));
+            long retard = ChronoUnit.DAYS.between(prevu, reel);
+
+            if (retard > 0) {
+                String message = "Retard constaté : retour prévu le "
+                        + prevu + ", retour réel le " + reel
+                        + ". Écart : " + retard + (retard > 1 ? " jours." : " jour.");
+                new NotificationDAO().ajouterNotification(idAdherent, "retard_retour", message);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     private void retourAuTableauDeBord() {
 
@@ -372,14 +403,19 @@ public class GestionRetoursController {
             return;
         }
 
+        int idRetourAMettreAJour = idRetourSelectionne;
+        String nouvelleDateRetour = dateRetourReelle.getValue().toString();
+
         boolean resultat = empruntDAO.modifierDateRetour(
-                idRetourSelectionne,
-                dateRetourReelle.getValue().toString()
+                idRetourAMettreAJour,
+                nouvelleDateRetour
         );
 
         if (resultat) {
 
             afficher("Date de retour modifiée avec succès.", "ok");
+
+            envoyerNotificationRetardSiNecessaire(idRetourAMettreAJour, nouvelleDateRetour);
 
             idRetourSelectionne = -1;
 
