@@ -12,6 +12,9 @@ public class DashboardAdherentController {
     @FXML
     private Label lblBienvenue;
 
+    @FXML
+    private Label lblBadgeNotification;
+
     private String role;
     private int idUtilisateur;
 
@@ -24,7 +27,29 @@ public class DashboardAdherentController {
         this.role = role;
 
         lblBienvenue.setText("Bienvenue, " + login);
+        actualiserBadgeNotification();
     }
+
+    private void actualiserBadgeNotification() {
+        int idAdherent = new AdherentDAO().getIdAdherentParUtilisateur(idUtilisateur);
+        int nbNonLues = new NotificationDAO().compterNotificationsNonLues(idAdherent);
+
+        if (lblBadgeNotification == null) {
+            return;
+        }
+
+        if (nbNonLues > 0) {
+            lblBadgeNotification.setText("" + nbNonLues);
+            lblBadgeNotification.setVisible(true);
+            lblBadgeNotification.setManaged(true);
+            lblBadgeNotification.setStyle("-fx-background-color: #D32F2F; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 2 7; -fx-background-radius: 999; -fx-border-radius: 999;");
+        } else {
+            lblBadgeNotification.setText("");
+            lblBadgeNotification.setVisible(false);
+            lblBadgeNotification.setManaged(false);
+        }
+    }
+
     @FXML
     private void consulterLivres() {
 
@@ -88,8 +113,6 @@ public class DashboardAdherentController {
             e.printStackTrace();
         }
     }
-
-  
 
     private void ouvrirCatalogue() {
 
@@ -220,6 +243,10 @@ public class DashboardAdherentController {
                     loader.getController();
             controller.setIdUtilisateur(idUtilisateur);
 
+            int idAdherent = new AdherentDAO().getIdAdherentParUtilisateur(idUtilisateur);
+            new NotificationDAO().marquerNotificationsLues(idAdherent);
+            actualiserBadgeNotification();
+
             Stage stage = new Stage();
             stage.setTitle("Mes notifications");
             stage.setScene(scene);
@@ -259,7 +286,6 @@ public class DashboardAdherentController {
             stage.setScene(scene);
             stage.setResizable(true);
             stage.show();
-
         } catch (Exception e) {
             e.printStackTrace();
         }

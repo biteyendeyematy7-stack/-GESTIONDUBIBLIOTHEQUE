@@ -38,22 +38,25 @@
                 <HBox alignment="CENTER_LEFT"
                       spacing="14"
                       styleClass="management-header"
-                      style="-fx-background-color: #7B2D3B;">
+                      style="-fx-background-color: #7B2D3B; -fx-border-color: #B7791F; -fx-border-width: 0 0 4 0;">
 
                     <Label text="📚" styleClass="action-icon"/>
 
                     <VBox spacing="3">
                         <Label text="Catalogue des livres"
-                               styleClass="management-title"/>
+                               styleClass="management-title"
+                               style="-fx-text-fill: white; -fx-font-weight: bold;"/>
                         <Label text="Parcourez les livres de la bibliothèque et leur disponibilité."
-                               styleClass="management-subtitle"/>
+                               styleClass="management-subtitle"
+                               style="-fx-text-fill: #F5E7D3;"/>
                     </VBox>
 
                     <Region HBox.hgrow="ALWAYS"/>
 
                     <Button text="← Tableau de bord"
                             onAction="#retourAuTableauDeBord"
-                            styleClass="back-button"/>
+                            styleClass="back-button"
+                            style="-fx-text-fill: #F5E7D3; -fx-border-color: #F5E7D3; -fx-background-color: transparent;"/>
                 </HBox>
             </top>
 

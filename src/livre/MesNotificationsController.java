@@ -29,6 +29,7 @@ public class MesNotificationsController {
     public void setIdUtilisateur(int idUtilisateur) {
         this.idUtilisateur = idUtilisateur;
         this.idAdherentConnecte = new AdherentDAO().getIdAdherentParUtilisateur(idUtilisateur);
+        new NotificationDAO().envoyerNotificationsAutomatiques();
         chargerNotifications();
     }
 
@@ -56,6 +57,7 @@ public class MesNotificationsController {
                     String message = rs.getString("message");
                     String date = rs.getString("date_envoi");
                     int lu = rs.getInt("lu");
+                    System.out.println("[MesNotificationsController] notification lue: type=" + type + ", message=" + message + ", date=" + date + ", idAdherent=" + idAdherentConnecte);
                     count++;
                     conteneurNotifications.getChildren().add(creerCarte(type, message, date, lu));
                 }
@@ -79,6 +81,7 @@ public class MesNotificationsController {
         carte.setStyle("-fx-padding: 14; -fx-background-color: #F7F7F7; -fx-border-color: #D9D9D9; -fx-border-radius: 10; -fx-background-radius: 10;");
 
         VBox info = new VBox(6);
+        info.setFillWidth(true);
         HBox.setHgrow(info, Priority.ALWAYS);
 
         String libelle = switch (type) {
@@ -89,11 +92,16 @@ public class MesNotificationsController {
             default -> "Notification";
         };
 
-        Label lblType = new Label(libelle);
-        lblType.setStyle("-fx-font-weight: bold; -fx-text-fill: #1F3A5F;");
+        String texteMessage = message == null || message.trim().isEmpty()
+                ? ("retard_retour".equals(type)
+                        ? "Votre date de retour est dépassée. Veuillez rapporter le livre à la bibliothèque dès que possible."
+                        : "Votre date de retour est prévue prochainement. Veuillez prévoir le retour du livre.")
+                : message;
 
-        Label lblMessage = new Label(message);
-        lblMessage.setWrapText(true);
+        Label lblContenu = new Label(libelle + "\n" + texteMessage);
+        lblContenu.setWrapText(true);
+        lblContenu.setMaxWidth(Double.MAX_VALUE);
+        lblContenu.setStyle("-fx-text-fill: #1F2937; -fx-font-size: 13px;");
 
         Label lblDate = new Label(dateEnvoi == null ? "Date inconnue" : formaterDate(dateEnvoi));
         lblDate.setStyle("-fx-text-fill: #666; -fx-font-size: 11px;");
@@ -103,7 +111,7 @@ public class MesNotificationsController {
                 ? "-fx-background-color: #E5E7EB; -fx-text-fill: #374151; -fx-padding: 4 8; -fx-background-radius: 999;"
                 : "-fx-background-color: #DFF2E5; -fx-text-fill: #1B5E20; -fx-padding: 4 8; -fx-background-radius: 999;");
 
-        info.getChildren().addAll(lblType, lblMessage, lblDate);
+        info.getChildren().addAll(lblContenu, lblDate);
         carte.getChildren().addAll(info, lblLu);
         return carte;
     }

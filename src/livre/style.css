@@ -393,22 +393,20 @@
 }
 
 .management-header {
-    -fx-background-color: #4A2C1D;
-    -fx-padding: 22 30 22 30;
-    -fx-border-color: #B7791F;
-    -fx-border-width: 0 0 4 0;
-    -fx-effect: dropshadow(gaussian, rgba(58, 34, 22, 0.22), 12, 0.18, 0, 3);
+    -fx-background-color: #F5E9E0;
+    -fx-padding: 18 20 18 20;
+    -fx-border-color: #4A2C1D;
+    -fx-border-width: 0 0 2 0;
 }
 
 .management-title {
-    -fx-text-fill: #FBF5E9;
-    -fx-font-family: "Georgia";
+    -fx-text-fill: #4A2C1D;
     -fx-font-size: 22px;
     -fx-font-weight: bold;
 }
 
 .management-subtitle {
-    -fx-text-fill: #E6D3B3;
+    -fx-text-fill: #6B5748;
     -fx-font-size: 12px;
 }
 
@@ -484,13 +482,18 @@
 
 .danger-button {
     -fx-background-color: #FBEAE6;
-    -fx-text-fill: #9B2C2C;
-    -fx-border-color: #E0A8A0;
+    -fx-text-fill: #4A2C1D;
+    -fx-font-weight: bold;
+    -fx-border-color: #4A2C1D;
+    -fx-border-width: 1.5px;
+    -fx-background-radius: 8px;
     -fx-border-radius: 8px;
+    -fx-padding: 7 12 7 12;
 }
 
 .danger-button:hover {
-    -fx-background-color: #F5D5CE;
+    -fx-background-color: #F0D4CC;
+    -fx-border-color: #2F1A12;
 }
 
 .library-table {
@@ -548,21 +551,20 @@
 }
 
 .back-button {
-    -fx-background-color: rgba(255, 255, 255, 0.12);
+    -fx-background-color: transparent;
+    -fx-text-fill: #4A2C1D;
+    -fx-border-color: #4A2C1D;
+    -fx-border-width: 1.2px;
     -fx-background-radius: 8px;
-    -fx-border-color: rgba(229, 204, 151, 0.55);
     -fx-border-radius: 8px;
-    -fx-border-width: 1px;
-    -fx-padding: 8 12 8 12;
-    -fx-text-fill: #FBF5E9;
-    -fx-font-size: 12px;
-    -fx-font-weight: bold;
-    -fx-cursor: hand;
+    -fx-padding: 7 12 7 12;
 }
 
 .back-button:hover {
-    -fx-background-color: rgba(255, 255, 255, 0.22);
+    -fx-background-color: #F5E8DF;
+    -fx-border-color: #2F1A12;
 }
+
 /* Icônes des boutons d'accès rapide */
 .action-card .action-icon {
     -fx-text-fill: #B7791F;
@@ -638,12 +640,11 @@
 
 .loan-card {
     -fx-background-color: #FFFDF8;
-    -fx-background-radius: 16px;
-    -fx-border-color: #E3D5BC;
-    -fx-border-radius: 16px;
-    -fx-border-width: 1 1 1 5;
-    -fx-padding: 18 20 18 18;
-    -fx-effect: dropshadow(gaussian, rgba(74, 44, 29, 0.10), 12, 0.14, 0, 3);
+    -fx-border-color: #D7C0B4;
+    -fx-border-width: 1px;
+    -fx-border-radius: 12px;
+    -fx-background-radius: 12px;
+    -fx-padding: 12 14 12 14;
 }
 
 .loan-card-current {
@@ -671,9 +672,11 @@
 }
 
 .loan-status {
-    -fx-background-radius: 16px;
-    -fx-padding: 7 13 7 13;
-    -fx-font-size: 10px;
+    -fx-background-color: #F1E4CB;
+    -fx-text-fill: #8A5A12;
+    -fx-padding: 4 10 4 10;
+    -fx-background-radius: 999px;
+    -fx-font-size: 11px;
     -fx-font-weight: bold;
 }
 
@@ -824,4 +827,36 @@
 .search-card:hover {
     -fx-background-color: #FFFDF8;
     -fx-effect: dropshadow(gaussian, rgba(74, 44, 29, 0.16), 16, 0.18, 0, 4);
+}
+
+.reservation-button {
+    -fx-background-color: #FFFDF8;
+    -fx-text-fill: #4A2C1D;
+    -fx-font-weight: bold;
+    -fx-border-color: #4A2C1D;
+    -fx-border-width: 1.5px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 8 12 8 12;
+}
+
+.reservation-button:hover {
+    -fx-background-color: #F4E6D8;
+    -fx-border-color: #2F1A12;
+}
+
+.annuler-button {
+    -fx-background-color: #FBEAE6;
+    -fx-text-fill: #4A2C1D;
+    -fx-font-weight: bold;
+    -fx-border-color: #4A2C1D;
+    -fx-border-width: 1.5px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 7 12 7 12;
+}
+
+.annuler-button:hover {
+    -fx-background-color: #F0D4CC;
+    -fx-border-color: #2F1A12;
 }

@@ -4,8 +4,23 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class NotificationDAO {
+
+    private String formaterDateFr(String dateSql) {
+        if (dateSql == null || dateSql.isBlank()) {
+            return "cette date";
+        }
+        try {
+            LocalDate date = LocalDate.parse(dateSql.substring(0, 10));
+            return date.format(DateTimeFormatter.ofPattern("d MMMM yyyy", Locale.FRENCH));
+        } catch (Exception e) {
+            return dateSql;
+        }
+    }
 
     public boolean ajouterNotification(int idAdherent, String typeNotification, String message) {
         if (idAdherent <= 0 || typeNotification == null || typeNotification.trim().isEmpty() || message == null || message.trim().isEmpty()) {
@@ -125,7 +140,7 @@ public class NotificationDAO {
                     while (rs.next()) {
                         int idAdherent = rs.getInt("id_adherent");
                         String message = "Rappel : le retour du livre est prévu le "
-                                + rs.getString("date_retour_prevue")
+                                + formaterDateFr(rs.getString("date_retour_prevue"))
                                 + ". Merci de le rapporter à la bibliothèque.";
                         if (!ajouterNotification(idAdherent, "rappel_retour", message)) {
                             ok = false;
@@ -154,7 +169,7 @@ public class NotificationDAO {
                 while (rs.next()) {
                     int idAdherent = rs.getInt("id_adherent");
                     String message = "Retard : le livre devait être rendu le "
-                            + rs.getString("date_retour_prevue")
+                            + formaterDateFr(rs.getString("date_retour_prevue"))
                             + ". Merci de le rapporter dès que possible.";
                     if (!ajouterNotification(idAdherent, "retard_retour", message)) {
                         ok = false;
@@ -162,6 +177,45 @@ public class NotificationDAO {
                 }
                 return ok;
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public int compterNotificationsNonLues(int idAdherent) {
+        if (idAdherent <= 0) {
+            return 0;
+        }
+
+        String sql = "SELECT COUNT(*) FROM notification WHERE id_adherent = ? AND lu = 0";
+
+        try (Connection connexion = Connexion.getConnection();
+             PreparedStatement ps = connexion.prepareStatement(sql)) {
+            ps.setInt(1, idAdherent);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+    public boolean marquerNotificationsLues(int idAdherent) {
+        if (idAdherent <= 0) {
+            return false;
+        }
+
+        String sql = "UPDATE notification SET lu = 1 WHERE id_adherent = ? AND lu = 0";
+
+        try (Connection connexion = Connexion.getConnection();
+             PreparedStatement ps = connexion.prepareStatement(sql)) {
+            ps.setInt(1, idAdherent);
+            return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;

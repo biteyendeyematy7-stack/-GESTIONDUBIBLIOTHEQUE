@@ -184,6 +184,9 @@ public class LoginController {
             return;
         }
 
+        // Génération des rappels/retards à chaque connexion, pour que
+        // les notifications soient recalculées en fonction des emprunts actuels.
+        new NotificationDAO().envoyerNotificationsAutomatiques();
 
         if ("adherent".equals(utilisateur.getRole())
                 && (DESTINATION_PROFIL.equals(destinationApresConnexion)

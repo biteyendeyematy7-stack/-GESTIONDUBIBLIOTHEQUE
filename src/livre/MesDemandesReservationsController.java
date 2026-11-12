@@ -263,7 +263,7 @@ public class MesDemandesReservationsController {
             Button btnAnnuler = new Button("Annuler");
             btnAnnuler.setOnAction(this::annulerDemande);
             btnAnnuler.setUserData(item.idItem);
-            btnAnnuler.getStyleClass().add("back-button");
+            btnAnnuler.getStyleClass().addAll("annuler-button", "danger-button");
             details.getChildren().add(btnAnnuler);
         }
 
@@ -271,7 +271,7 @@ public class MesDemandesReservationsController {
             Button btnAnnuler = new Button("Annuler");
             btnAnnuler.setOnAction(this::annulerReservation);
             btnAnnuler.setUserData(item.idItem);
-            btnAnnuler.getStyleClass().add("back-button");
+            btnAnnuler.getStyleClass().addAll("annuler-button", "danger-button");
             details.getChildren().add(btnAnnuler);
         }
 

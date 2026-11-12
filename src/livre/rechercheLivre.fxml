@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-<?import java.net.URL?>
 
 <AnchorPane prefHeight="650.0" prefWidth="1000.0"
             styleClass="management-root"
@@ -21,6 +21,7 @@
     <stylesheets>
         <URL value="@style.css"/>
         <URL value="@styleAdherent.css"/>
+        <URL value="@styleCartes.css"/>
     </stylesheets>
 
     <children>
@@ -35,17 +36,13 @@
                       spacing="14"
                       styleClass="management-header">
 
-                    <Label text="⌕"
-                           styleClass="action-icon"/>
+                    <Label text="⌕" styleClass="action-icon"/>
 
                     <VBox spacing="3">
-
                         <Label text="RECHERCHE DE LIVRES"
                                styleClass="management-title"/>
-
-                        <Label text="Recherchez un livre par son titre, son auteur ou sa catégorie."
+                        <Label text="Recherchez un livre par son titre, un auteur ou sa catégorie."
                                styleClass="management-subtitle"/>
-
                     </VBox>
 
                     <Region HBox.hgrow="ALWAYS"/>
@@ -53,25 +50,16 @@
                     <Button text="← Tableau de bord"
                             onAction="#retourAuTableauDeBord"
                             styleClass="back-button"/>
-
                 </HBox>
             </top>
 
             <center>
+                <VBox spacing="16" styleClass="management-content">
 
-                <VBox spacing="16"
-                      styleClass="management-content">
-
-                    <!-- Recherche -->
-
-                    <VBox spacing="12"
-                          styleClass="search-card">
-
-                        <Label text="Rechercher un livre"
-                               styleClass="card-title"/>
+                    <VBox spacing="12" styleClass="search-card">
+                        <Label text="Rechercher un livre" styleClass="card-title"/>
 
                         <HBox spacing="10">
-
                             <TextField fx:id="txtRecherche"
                                        promptText="Titre, auteur ou catégorie..."
                                        styleClass="search-field"
@@ -82,61 +70,28 @@
                                     onAction="#rechercher"
                                     styleClass="search-button"/>
 
-                          
+                            <Button text="Afficher tous les livres"
+                                    onAction="#afficherTousLesLivres"
+                                    styleClass="search-button"/>
                         </HBox>
-
                     </VBox>
 
+                    <VBox spacing="8" VBox.vgrow="ALWAYS">
+                        <Label text="Résultats de la recherche" styleClass="card-title"/>
 
-                    <!-- Résultats -->
+                        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="page-scroll" VBox.vgrow="ALWAYS">
+                            <content>
+                                <FlowPane fx:id="grilleLivres"
+                                          hgap="22"
+                                          vgap="26"
+                                          styleClass="grille-livres"/>
+                            </content>
+                        </ScrollPane>
 
-                    <VBox spacing="8"
-                          VBox.vgrow="ALWAYS">
-
-                        <Label text="Résultats de la recherche"
-                               styleClass="card-title"/>
-
-                        <TableView fx:id="tableLivres"
-                                   styleClass="library-table"
-                                   VBox.vgrow="ALWAYS">
-
-                            <columns>
-
-                                <TableColumn fx:id="colId"
-                                             text="ID"
-                                             prefWidth="60"/>
-
-                                <TableColumn fx:id="colTitre"
-                                             text="Titre"
-                                             prefWidth="250"/>
-
-                                <TableColumn fx:id="colAuteur"
-                                             text="Auteur"
-                                             prefWidth="200"/>
-
-                                <TableColumn fx:id="colCategorie"
-                                             text="Catégorie"
-                                             prefWidth="170"/>
-
-                                <TableColumn fx:id="colExemplaires"
-                                             text="Exemplaires"
-                                             prefWidth="120"/>
-
-                                <TableColumn fx:id="colDisponibles"
-                                             text="Disponibles"
-                                             prefWidth="120"/>
-
-                            </columns>
-
-                        </TableView>
-
-                        <Label fx:id="lblMessage"
-                               styleClass="status-message"/>
-
+                        <Label fx:id="lblMessage" styleClass="status-message"/>
                     </VBox>
 
                 </VBox>
-
             </center>
 
         </BorderPane>

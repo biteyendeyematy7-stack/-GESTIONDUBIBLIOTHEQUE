@@ -72,6 +72,7 @@ public final class CartesLivres {
         // ---------- Actions ----------
         Button btnAction = new Button(disponibles > 0 ? "Demander un emprunt" : "Réserver");
         btnAction.setMaxWidth(Double.MAX_VALUE);
+        btnAction.getStyleClass().addAll("action-card", "reservation-button");
         btnAction.setOnAction(e -> traiterAction(idLivre, disponibles));
 
         HBox zoneActions = new HBox(btnAction);
