@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -41,6 +42,8 @@ public class MesDemandesReservationsController {
 
     private static final DateTimeFormatter FORMAT_DATE =
             DateTimeFormatter.ofPattern("d MMMM yyyy", Locale.FRENCH);
+    private static final DateTimeFormatter FORMAT_DATE_HEURE =
+            DateTimeFormatter.ofPattern("d MMMM yyyy 'à' HH:mm", Locale.FRENCH);
 
     public void setIdUtilisateur(int idUtilisateur) {
         this.idUtilisateur = idUtilisateur;
@@ -64,6 +67,7 @@ public class MesDemandesReservationsController {
 
         String sqlDemandes =
                 "SELECT d.id_demande AS id_item, 'Demande d’emprunt' AS type, l.titre, l.auteur, l.categorie, d.date_demande AS date_item, "
+              + "c.code AS code_retrait, c.date_expiration AS expiration_code, c.utilise AS code_utilise, "
               + "CASE d.statut "
               + "WHEN 'en_attente' THEN 'En attente' "
               + "WHEN 'acceptee_a_retirer' THEN 'Acceptée — à retirer' "
@@ -72,11 +76,13 @@ public class MesDemandesReservationsController {
               + "ELSE d.statut END AS statut "
               + "FROM demande_emprunt d "
               + "JOIN livre l ON l.id_livre = d.id_livre "
+              + "LEFT JOIN code_retrait c ON c.id_demande = d.id_demande "
               + "WHERE d.id_adherent = ? "
               + "ORDER BY d.date_demande DESC";
 
         String sqlReservations =
                 "SELECT r.id_reservation AS id_item, 'Réservation' AS type, l.titre, l.auteur, l.categorie, r.date_reservation AS date_item, "
+              + "c.code AS code_retrait, c.date_expiration AS expiration_code, c.utilise AS code_utilise, "
               + "CASE r.statut "
               + "WHEN 'en_attente' THEN 'En attente' "
               + "WHEN 'disponible_a_retirer' THEN 'Disponible — à retirer' "
@@ -84,6 +90,7 @@ public class MesDemandesReservationsController {
               + "ELSE r.statut END AS statut "
               + "FROM reservation r "
               + "JOIN livre l ON l.id_livre = r.id_livre "
+              + "LEFT JOIN code_retrait c ON c.id_reservation = r.id_reservation "
               + "WHERE r.id_adherent = ? "
               + "ORDER BY r.date_reservation DESC";
 
@@ -104,6 +111,9 @@ public class MesDemandesReservationsController {
                                 rs.getString("auteur"),
                                 rs.getString("categorie"),
                                 rs.getString("date_item"),
+                                rs.getString("code_retrait"),
+                                rs.getString("expiration_code"),
+                                rs.getBoolean("code_utilise"),
                                 rs.getString("statut"),
                                 rs.getInt("id_item")
                         ));
@@ -121,6 +131,9 @@ public class MesDemandesReservationsController {
                                 rs.getString("auteur"),
                                 rs.getString("categorie"),
                                 rs.getString("date_item"),
+                                rs.getString("code_retrait"),
+                                rs.getString("expiration_code"),
+                                rs.getBoolean("code_utilise"),
                                 rs.getString("statut"),
                                 rs.getInt("id_item")
                         ));
@@ -259,6 +272,19 @@ public class MesDemandesReservationsController {
 
         details.getChildren().addAll(header, date);
 
+        if (item.code != null && !item.code.isBlank() && !item.codeUtilise) {
+            Label code = new Label("Code de retrait : " + item.code);
+            code.getStyleClass().add("loan-status-current");
+
+            String expiration = item.expiration == null
+                    ? "Date d'expiration non renseignÃ©e"
+                    : "Valable jusqu'au : " + formaterDateHeure(item.expiration);
+            Label dateExpiration = new Label(expiration);
+            dateExpiration.getStyleClass().add("loan-id");
+
+            details.getChildren().addAll(code, dateExpiration);
+        }
+
         if ("Demande d’emprunt".equals(item.type) && estDemandeAnnulable(item.statut)) {
             Button btnAnnuler = new Button("Annuler");
             btnAnnuler.setOnAction(this::annulerDemande);
@@ -287,6 +313,23 @@ public class MesDemandesReservationsController {
         String dateISO = valeur.length() >= 10 ? valeur.substring(0, 10) : valeur;
         try {
             return LocalDate.parse(dateISO).format(FORMAT_DATE);
+        } catch (DateTimeParseException e) {
+            return valeur;
+        }
+    }
+
+    private String formaterDateHeure(String valeur) {
+        if (valeur == null || valeur.isBlank()) {
+            return "â€”";
+        }
+
+        String dateISO = valeur.replace(' ', 'T');
+        if (dateISO.length() > 19) {
+            dateISO = dateISO.substring(0, 19);
+        }
+
+        try {
+            return LocalDateTime.parse(dateISO).format(FORMAT_DATE_HEURE);
         } catch (DateTimeParseException e) {
             return valeur;
         }
@@ -351,15 +394,23 @@ public class MesDemandesReservationsController {
         private final String auteur;
         private final String categorie;
         private final String date;
+        private final String code;
+        private final String expiration;
+        private final boolean codeUtilise;
         private final String statut;
         private final int idItem;
 
-        private PendingItem(String type, String titre, String auteur, String categorie, String date, String statut, int idItem) {
+        private PendingItem(String type, String titre, String auteur, String categorie,
+                String date, String code, String expiration, boolean codeUtilise,
+                String statut, int idItem) {
             this.type = type;
             this.titre = titre;
             this.auteur = auteur;
             this.categorie = categorie;
             this.date = date;
+            this.code = code;
+            this.expiration = expiration;
+            this.codeUtilise = codeUtilise;
             this.statut = statut;
             this.idItem = idItem;
         }

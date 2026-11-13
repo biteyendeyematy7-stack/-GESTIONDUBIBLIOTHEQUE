@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
@@ -24,6 +25,9 @@ public class GestionDemandesController {
 
     @FXML
     private Label lblMessage;
+
+    @FXML
+    private TextField txtCodeRetrait;
 
     private int idUtilisateur;
     private String role;
@@ -74,11 +78,14 @@ public class GestionDemandesController {
                 }
 
                 if ("acceptee_a_retirer".equalsIgnoreCase(statut)) {
-                    Button btnRemise = new Button("Remise");
-                    btnRemise.setStyle("-fx-background-color: #1565C0; -fx-text-fill: white;");
-                    btnRemise.setOnAction(e -> confirmerRemiseDemande(idDemande));
+                    Button btnSelectionner = new Button("Selectionner");
+                    btnSelectionner.setStyle("-fx-background-color: #1565C0; -fx-text-fill: white;");
+                    btnSelectionner.setOnAction(e -> {
+                        tableDemandes.getSelectionModel().select(ligne);
+                        txtCodeRetrait.requestFocus();
+                    });
 
-                    HBox box = new HBox(8, btnRemise);
+                    HBox box = new HBox(8, btnSelectionner);
                     box.setAlignment(Pos.CENTER);
                     setGraphic(box);
                     return;
@@ -172,9 +179,27 @@ public class GestionDemandesController {
         }
     }
 
-    private void confirmerRemiseDemande(int idDemande) {
-        if (idDemande <= 0) {
-            afficherMessage("Demande invalide.", "erreur");
+    private void confirmerRemiseDemande(int idDemande, String codeSaisi) {
+        if (idDemande <= 0 || codeSaisi == null || codeSaisi.isBlank()) {
+            afficherMessage("Veuillez saisir un code de retrait.", "erreur");
+            return;
+        }
+
+        CodeRetrait codeRetrait = new CodeRetraitDAO().rechercherParCode(codeSaisi);
+        if (codeRetrait == null) {
+            afficherMessage("Code de retrait introuvable.", "erreur");
+            return;
+        }
+        if (!Integer.valueOf(idDemande).equals(codeRetrait.getIdDemande())) {
+            afficherMessage("Ce code ne correspond pas a cette demande.", "erreur");
+            return;
+        }
+        if (codeRetrait.isUtilise()) {
+            afficherMessage("Ce code de retrait a deja ete utilise.", "erreur");
+            return;
+        }
+        if (codeRetrait.estExpire()) {
+            afficherMessage("Ce code de retrait est expire.", "erreur");
             return;
         }
 
@@ -182,8 +207,24 @@ public class GestionDemandesController {
         String message = controller.confirmerRemiseDemande(idDemande, idUtilisateur);
         afficherMessage(message, message.contains("Impossible") ? "erreur" : "ok");
         if (!message.contains("Impossible")) {
+            if (!new CodeRetraitDAO().marquerCommeUtilise(codeSaisi)) {
+                afficherMessage("Emprunt cree, mais le code n'a pas pu etre marque comme utilise.", "erreur");
+            }
+            txtCodeRetrait.clear();
             chargerDemandes();
         }
+    }
+
+    @FXML
+    private void verifierCodeRetrait() {
+        ObservableList<String> ligne = tableDemandes.getSelectionModel().getSelectedItem();
+        if (ligne == null) {
+            afficherMessage("Selectionnez d'abord une demande acceptee.", "erreur");
+            return;
+        }
+
+        int idDemande = Integer.parseInt(ligne.get(0));
+        confirmerRemiseDemande(idDemande, txtCodeRetrait.getText());
     }
 
     private void afficherMessage(String texte, String type) {

@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
@@ -24,6 +25,9 @@ public class GestionReservationsController {
 
     @FXML
     private Label lblMessage;
+
+    @FXML
+    private TextField txtCodeRetrait;
 
     private int idUtilisateur;
     private String role;
@@ -61,9 +65,12 @@ public class GestionReservationsController {
                 btnNotifier.setStyle("-fx-background-color: #1565C0; -fx-text-fill: white;");
                 btnNotifier.setOnAction(e -> notifierReservation(idReservation));
 
-                Button btnValider = new Button("Remise");
+                Button btnValider = new Button("Selectionner");
                 btnValider.setStyle("-fx-background-color: #2E7D32; -fx-text-fill: white;");
-                btnValider.setOnAction(e -> validerRemiseReservation(idReservation));
+                btnValider.setOnAction(e -> {
+                    tableReservations.getSelectionModel().select(ligne);
+                    txtCodeRetrait.requestFocus();
+                });
 
                 Button btnAnnuler = new Button("Annuler");
                 btnAnnuler.setStyle("-fx-background-color: #C62828; -fx-text-fill: white;");
@@ -161,9 +168,32 @@ public class GestionReservationsController {
         }
     }
 
-    private void validerRemiseReservation(int idReservation) {
+    private void validerRemiseReservation(int idReservation, String codeSaisi) {
         if (idReservation <= 0) {
             afficherMessage("Réservation invalide.", "erreur");
+            return;
+        }
+
+        if (codeSaisi == null || codeSaisi.isBlank()) {
+            afficherMessage("Veuillez saisir un code de retrait.", "erreur");
+            return;
+        }
+
+        CodeRetrait codeRetrait = new CodeRetraitDAO().rechercherParCode(codeSaisi);
+        if (codeRetrait == null) {
+            afficherMessage("Code de retrait introuvable.", "erreur");
+            return;
+        }
+        if (!Integer.valueOf(idReservation).equals(codeRetrait.getIdReservation())) {
+            afficherMessage("Ce code ne correspond pas a cette reservation.", "erreur");
+            return;
+        }
+        if (codeRetrait.isUtilise()) {
+            afficherMessage("Ce code de retrait a deja ete utilise.", "erreur");
+            return;
+        }
+        if (codeRetrait.estExpire()) {
+            afficherMessage("Ce code de retrait est expire.", "erreur");
             return;
         }
 
@@ -171,8 +201,24 @@ public class GestionReservationsController {
         String message = controller.confirmerRetraitReservation(idReservation, idUtilisateur);
         afficherMessage(message, message.contains("Impossible") ? "erreur" : "ok");
         if (!message.contains("Impossible")) {
+            if (!new CodeRetraitDAO().marquerCommeUtilise(codeSaisi)) {
+                afficherMessage("Emprunt cree, mais le code n'a pas pu etre marque comme utilise.", "erreur");
+            }
+            txtCodeRetrait.clear();
             chargerReservations();
         }
+    }
+
+    @FXML
+    private void verifierCodeRetrait() {
+        ObservableList<String> ligne = tableReservations.getSelectionModel().getSelectedItem();
+        if (ligne == null) {
+            afficherMessage("Selectionnez d'abord une reservation disponible au retrait.", "erreur");
+            return;
+        }
+
+        int idReservation = Integer.parseInt(ligne.get(0));
+        validerRemiseReservation(idReservation, txtCodeRetrait.getText());
     }
 
     private void annulerReservationBibliothecaire(int idReservation) {

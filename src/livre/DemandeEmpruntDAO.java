@@ -190,6 +190,19 @@ public class DemandeEmpruntDAO {
                     }
                 }
 
+                CodeRetrait codeRetrait =
+                        new CodeRetraitDAO().genererCodePourDemande(
+                                connexion,
+                                idDemande,
+                                3
+                        );
+
+                if (codeRetrait == null) {
+                    throw new SQLException(
+                            "Impossible de generer le code de retrait."
+                    );
+                }
+
                 connexion.commit();
                 return true;
 

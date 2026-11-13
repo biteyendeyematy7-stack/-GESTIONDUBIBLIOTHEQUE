@@ -86,8 +86,32 @@ public class ReservationDAO {
     }
 
     public boolean notifierProchaineReservation(int idLivre) {
+        try (Connection connexion = Connexion.getConnection()) {
+            connexion.setAutoCommit(false);
+
+            try {
+                boolean resultat = notifierProchaineReservation(connexion, idLivre);
+                connexion.commit();
+                return resultat;
+            } catch (SQLException e) {
+                connexion.rollback();
+                throw e;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    boolean notifierProchaineReservation(Connection connexion, int idLivre)
+            throws SQLException {
+
+        if (connexion == null || idLivre <= 0) {
+            return false;
+        }
+
         String sqlSelect =
-                "SELECT id_reservation, id_adherent "
+                "SELECT id_reservation "
               + "FROM reservation "
               + "WHERE id_livre = ? AND statut = 'en_attente' "
               + "ORDER BY date_reservation ASC "
@@ -98,31 +122,41 @@ public class ReservationDAO {
               + "SET statut = 'disponible_a_retirer', "
               + "    date_notification = NOW(), "
               + "    date_limite_retrait = DATE_ADD(NOW(), INTERVAL 2 DAY) "
-              + "WHERE id_reservation = ?";
+              + "WHERE id_reservation = ? AND statut = 'en_attente'";
 
-        try (Connection connexion = Connexion.getConnection()) {
-            int idReservation = 0;
+        int idReservation;
 
-            try (PreparedStatement psSelect = connexion.prepareStatement(sqlSelect)) {
-                psSelect.setInt(1, idLivre);
-                ResultSet rs = psSelect.executeQuery();
-
-                if (rs.next()) {
-                    idReservation = rs.getInt("id_reservation");
-                } else {
+        try (PreparedStatement psSelect = connexion.prepareStatement(sqlSelect)) {
+            psSelect.setInt(1, idLivre);
+            try (ResultSet rs = psSelect.executeQuery()) {
+                if (!rs.next()) {
                     return false;
                 }
+                idReservation = rs.getInt("id_reservation");
             }
-
-            try (PreparedStatement psMaj = connexion.prepareStatement(sqlMaj)) {
-                psMaj.setInt(1, idReservation);
-                return psMaj.executeUpdate() > 0;
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
         }
+
+        try (PreparedStatement psMaj = connexion.prepareStatement(sqlMaj)) {
+            psMaj.setInt(1, idReservation);
+            if (psMaj.executeUpdate() == 0) {
+                return false;
+            }
+        }
+
+        CodeRetrait codeRetrait =
+                new CodeRetraitDAO().genererCodePourReservation(
+                        connexion,
+                        idReservation,
+                        2
+                );
+
+        if (codeRetrait == null) {
+            throw new SQLException(
+                    "Impossible de generer le code de retrait de la reservation."
+            );
+        }
+
+        return true;
     }
 
     public boolean expirerReservationsNonRetirees() {
@@ -313,7 +347,11 @@ public class ReservationDAO {
                     psWaiting.setInt(1, idLivre);
                     ResultSet rsWaiting = psWaiting.executeQuery();
                     if (rsWaiting.next() && rsWaiting.getInt(1) > 0) {
-                        notifierProchaineReservation(idLivre);
+                        if (!notifierProchaineReservation(connexion, idLivre)) {
+                            throw new SQLException(
+                                    "Impossible de notifier la prochaine reservation."
+                            );
+                        }
                     }
                 }
 
